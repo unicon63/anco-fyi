@@ -37,8 +37,8 @@ export default function HeroPage() {
           height={907}
           priority
           style={{
-            width: "78%",
-            maxWidth: "400px",
+            width: "100%",
+            maxWidth: "700px",
             height: "auto",
             objectFit: "contain",
             filter: "drop-shadow(0 1px 2px rgba(15, 27, 71, 0.2))",
@@ -47,14 +47,14 @@ export default function HeroPage() {
       </div>
 
       {/* Flexible spacer */}
-      <div style={{ flex: 1, minHeight: "24px" }} />
+      <div style={{ flex: 1, minHeight: "12px" }} />
 
       {/* Title block — 28px left padding */}
       <div style={{ padding: "0 28px", flexShrink: 0 }}>
         <p
           className="font-serif"
           style={{
-            fontSize: "26px",
+            fontSize: "32px",
             color: "#0F1B47",
             letterSpacing: "0.01em",
             textTransform: "uppercase",
@@ -67,7 +67,7 @@ export default function HeroPage() {
         <p
           className="font-serif"
           style={{
-            fontSize: "26px",
+            fontSize: "32px",
             color: "#0F1B47",
             letterSpacing: "0.01em",
             textTransform: "uppercase",
@@ -94,20 +94,24 @@ export default function HeroPage() {
         >
           NEAR LICCIANA NARDI, TUSCANY, ITALY
         </p>
-        <p
-          className="font-serif"
+        <a
+          href="https://www.google.com/maps?q=44.253583,10.040472"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-serif hover:underline"
           style={{
+            display: "block",
             fontSize: "16px",
             color: "#0F1B47",
             opacity: 0.92,
             letterSpacing: "0.04em",
             textTransform: "uppercase",
             lineHeight: 1.4,
-            margin: 0,
+            textDecoration: "none",
           }}
         >
           44°15′12.9″N&nbsp;&nbsp;10°02′25.7″E
-        </p>
+        </a>
       </div>
 
       {/* 28px gap */}
