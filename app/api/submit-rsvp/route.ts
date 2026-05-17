@@ -6,24 +6,14 @@ const SHEET_ID = "1zmUlnAMNemOQ3Ne2Mlm_X0M4cdPa8lz0L9ikpKxleyw";
 const SHEET_NAME = "RSVPs";
 
 function parseCredentials(raw: string) {
-  // Vercel sometimes stores \n as literal two-char sequences (\n) instead of
-  // real newlines, or vice-versa depending on how the value was pasted.
-  // We normalise after parsing: ensure private_key uses real newlines.
-  let parsed: Record<string, string>;
-  try {
-    parsed = JSON.parse(raw);
-  } catch {
-    // If JSON.parse fails the string may contain unescaped literal newlines
-    // (e.g. from TextEdit). Replace them and try again.
-    parsed = JSON.parse(raw.replace(/\n/g, "\\n"));
-  }
-
+  const parsed = JSON.parse(raw);
+  // After JSON.parse, the private_key may still contain literal \n
+  // (backslash + n) rather than real newline characters, depending on
+  // how Vercel stored the value. Convert them to actual newlines so
+  // the crypto library can decode the PEM key.
   if (parsed.private_key) {
-    // Convert any literal \n two-char sequences to real newlines that
-    // the googleapis library requires for PEM key parsing.
     parsed.private_key = parsed.private_key.replace(/\\n/g, "\n");
   }
-
   return parsed;
 }
 
