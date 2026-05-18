@@ -106,7 +106,10 @@ export default function HeroPage() {
             letterSpacing: "0.04em",
             textTransform: "uppercase",
             lineHeight: 1.4,
-            textDecoration: "none",
+            textDecorationLine: "underline",
+            textDecorationColor: "rgba(15, 27, 71, 0.3)",
+            textDecorationThickness: "1px",
+            textUnderlineOffset: "2px",
           }}
         >
           44°15′12.9″N&nbsp;&nbsp;10°02′25.7″E

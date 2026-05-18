@@ -30,7 +30,7 @@ export const STAY_LABELS: Record<string, string> = {
 };
 
 export const STAY_NOTES: Record<string, string> = {
-  tent: "Subject to number, we will let you know.",
+  tent: "Subject to numbers, we will let you know.",
   own: "We appreciate this. The location is relatively isolated, so the nearby houses will get booked up so recommend doing this soon!",
-  help: "We have reserved some houses of varying sizes; more information to follow.",
+  help: "We have reserved some accommodation of varying sizes; more information to follow.",
 };
