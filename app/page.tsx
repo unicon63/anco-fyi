@@ -29,7 +29,7 @@ export default function HeroPage() {
       <div style={{ height: "2px", flexShrink: 0 }} />
 
       {/* Rhinestone PNG */}
-      <div className="flex justify-center" style={{ flexShrink: 0, paddingTop: "32px" }}>
+      <div className="flex justify-center items-center" style={{ flex: 1, minHeight: "0px", maxHeight: "100%", paddingTop: "32px" }}>
         <Image
           src="/assets/to-be-wed-transparent.png"
           alt="To Be Wed"
@@ -38,6 +38,8 @@ export default function HeroPage() {
           priority
           style={{
             maxWidth: "354px",
+            maxHeight: "100%",
+            minHeight: "150px",
             height: "auto",
             objectFit: "contain",
             filter: "drop-shadow(0 1px 2px rgba(15, 27, 71, 0.2))",
@@ -116,8 +118,8 @@ export default function HeroPage() {
         </a>
       </div>
 
-      {/* Flexible spacer pushes button to bottom */}
-      <div style={{ flex: 1, minHeight: "0px", marginTop: "-48px" }} />
+      {/* Fixed 40px gap between location and RSVP */}
+      <div style={{ height: "40px", flexShrink: 0 }} />
 
       {/* RSVP button locked to bottom */}
       <div style={{ padding: "0 24px 28px", flexShrink: 0 }}>
