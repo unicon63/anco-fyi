@@ -19,11 +19,11 @@ const workSans = Work_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Annie & Nico — RSVP",
-  description: "Wedding RSVP for Annie & Nico, June 19–20 2027, Tuscany, Italy.",
+  title: "∞ Annie & Nico ∞",
+  description: "June 19–20 2027",
   metadataBase: new URL("https://anco.fyi"),
   openGraph: {
-    title: "Annie & Nico — RSVP",
+    title: "∞ Annie & Nico ∞",
     description: "Join us in Tuscany. June 19–20 2027.",
     url: "https://anco.fyi",
     siteName: "anco.fyi",
