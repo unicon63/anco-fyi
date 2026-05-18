@@ -16,6 +16,7 @@
     color: #0F1B47;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background-color: #09144C;
   }
 
   #__next,
@@ -108,7 +109,7 @@
   animation: spin 0.9s linear infinite;
 }
 
-/* App background — sky photo, full-bleed, all screens */
+/* App background — sky photo, full-bleed on mobile */
 .app-bg {
   width: 100%;
   min-height: 100%;
@@ -119,19 +120,21 @@
   background-attachment: local;
 }
 
-/* Desktop: center a phone-shaped frame */
-@media (min-width: 720px) {
-  .phone-frame {
-    width: 402px;
-    min-height: 840px;
+/* Desktop: lock to 545px, centered, white sides */
+@media (min-width: 546px) {
+  .app-bg {
+    max-width: 545px;
     margin: 0 auto;
-    position: relative;
-    overflow: hidden;
+  }
+
+  .phone-frame {
+    width: 100%;
+    min-height: 100svh;
   }
 }
 
 /* Mobile: full-bleed */
-@media (max-width: 719px) {
+@media (max-width: 545px) {
   .phone-frame {
     width: 100%;
     min-height: 100svh;
