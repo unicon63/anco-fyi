@@ -18,7 +18,7 @@ export default function HeroPage() {
           fontSize: "11px",
           color: "#0F1B47",
           opacity: 0.7,
-          marginTop: "8px",
+          marginTop: "4px",
           flexShrink: 0,
         }}
       >
@@ -26,18 +26,18 @@ export default function HeroPage() {
       </div>
 
       {/* 2px anchor gap */}
-      <div style={{ height: "2px", flexShrink: 0 }} />
+      <div style={{ height: "0px", flexShrink: 0 }} />
 
       {/* Rhinestone PNG */}
-      <div className="flex justify-center items-center" style={{ flex: 1, minHeight: "0px", maxHeight: "100%", paddingTop: "32px" }}>
+      <div className="flex justify-center items-center" style={{ flex: 1, minHeight: "0px", maxHeight: "100%", paddingTop: "16px" }}>
         <Image
           src="/assets/to-be-wed-transparent.png"
           alt="To Be Wed"
-          width={354}
-          height={501}
+          width={302}
+          height={428}
           priority
           style={{
-            maxWidth: "354px",
+            maxWidth: "302px",
             maxHeight: "100%",
             minHeight: "150px",
             height: "auto",
