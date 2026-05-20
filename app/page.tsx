@@ -8,9 +8,6 @@ export default function HeroPage() {
       className="phone-frame flex flex-col"
       style={{ minHeight: "100svh" }}
     >
-      {/* Safe area — desktop only */}
-      <div className="hidden sm:block" style={{ height: "56px", flexShrink: 0 }} />
-
       {/* ANCO.FYI mark */}
       <div
         className="text-center font-sans font-medium tracking-[0.22em] uppercase"
@@ -18,7 +15,7 @@ export default function HeroPage() {
           fontSize: "11px",
           color: "#0F1B47",
           opacity: 0.7,
-          marginTop: "4px",
+          marginTop: "8px",
           flexShrink: 0,
         }}
       >
@@ -29,7 +26,7 @@ export default function HeroPage() {
       <div style={{ height: "0px", flexShrink: 0 }} />
 
       {/* Rhinestone PNG */}
-      <div className="flex justify-center items-center" style={{ flex: 1, minHeight: "0px", maxHeight: "100%", paddingTop: "16px" }}>
+      <div className="flex justify-center items-center" style={{ flex: 1, minHeight: "0px", maxHeight: "100%", paddingTop: "24px" }}>
         <Image
           src="/assets/to-be-wed-transparent.png"
           alt="To Be Wed"
@@ -37,7 +34,8 @@ export default function HeroPage() {
           height={428}
           priority
           style={{
-            maxWidth: "302px",
+            maxWidth: "max(258px, min(302px, 70vw))",
+            width: "100%",
             maxHeight: "100%",
             minHeight: "150px",
             height: "auto",

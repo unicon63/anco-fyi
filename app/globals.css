@@ -109,34 +109,89 @@
   animation: spin 0.9s linear infinite;
 }
 
-/* App background — sky photo, full-bleed on mobile */
-.app-bg {
+/* Mobile: full-bleed (default) */
+.phone-frame {
   width: 100%;
-  min-height: 100%;
-  background-image: url('/assets/sky-bg.png');
+  min-height: 100svh;
+  background-image: url('/assets/background-phone-screen.png');
   background-size: cover;
-  background-position: center bottom;
-  background-repeat: no-repeat;
-  background-attachment: local;
+  background-position: center;
 }
 
-/* Desktop: lock to 545px, centered, white sides */
-@media (min-width: 546px) {
-  .app-bg {
+/* Mobile: full-bleed (under 550px) */
+@media (max-width: 549px) {
+  body {
+    background-color: transparent;
+  }
+
+  .phone-frame {
+    width: 100%;
+    min-height: 100svh;
+  }
+}
+
+/* Floating card 550-829px: body shared styles */
+@media (min-width: 550px) and (max-width: 829px) {
+  body {
+    background-color: #09144C;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 40px 0;
+  }
+
+  .phone-frame {
+    height: calc(620px + (40 * ((100vh - 600px) / 230)));
+    min-height: unset !important;
+    max-height: unset;
+    margin: 0;
+    border-radius: 0;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    background-image: url('/assets/background-phone-screen.png');
+    background-size: cover;
+    background-position: center;
+  }
+}
+
+/* Floating card 550-640px: uses viewport width */
+@media (min-width: 550px) and (max-width: 640px) {
+  .phone-frame {
+    width: 92vw;
     max-width: 545px;
-    margin: 0 auto;
-  }
-
-  .phone-frame {
-    width: 100%;
-    min-height: 100svh;
   }
 }
 
-/* Mobile: full-bleed */
-@media (max-width: 545px) {
+/* Floating card 641-829px: transitions to fixed width */
+@media (min-width: 641px) and (max-width: 829px) {
   .phone-frame {
-    width: 100%;
-    min-height: 100svh;
+    width: calc(545px - (45 * ((100vw - 641px) / 189)));
+  }
+}
+
+/* Desktop 830px+: locks to final size */
+@media (min-width: 830px) {
+  body {
+    background-color: #09144C;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 40px 0;
+  }
+
+  .phone-frame {
+    width: 500px;
+    height: 660px;
+    min-height: 660px !important;
+    max-height: 660px;
+    margin: 0;
+    border-radius: 0;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    background-image: url('/assets/background-phone-screen.png');
+    background-size: cover;
+    background-position: center;
   }
 }

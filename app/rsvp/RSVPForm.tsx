@@ -105,10 +105,7 @@ export default function RSVPForm() {
   const isFinalStep = step === 6;
 
   return (
-    <div className="phone-frame flex flex-col" style={{ minHeight: "100svh" }}>
-      {/* Safe area */}
-      <div className="hidden sm:block" style={{ height: "56px", flexShrink: 0 }} />
-
+    <div className="phone-frame flex flex-col">
       {/* Top bar */}
       <div
         className="flex items-center justify-between"
