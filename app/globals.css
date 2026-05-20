@@ -202,3 +202,10 @@
     right: 16px;
   }
 }
+
+/* Fix confirmation page button position on desktop */
+@media (min-width: 550px) {
+  .confirmation-buttons {
+    padding: 12px 24px 28px !important;
+  }
+}

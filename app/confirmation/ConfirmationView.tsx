@@ -129,7 +129,7 @@ export default function ConfirmationView() {
       <div style={{ flex: 1, minHeight: "24px" }} />
 
       {/* Action buttons */}
-      <div style={{ padding: "12px 24px 44px", flexShrink: 0 }}>
+      <div className="confirmation-buttons" style={{ padding: "12px 24px 44px", flexShrink: 0 }}>
         <div className="flex flex-col" style={{ gap: "12px" }}>
           <PrimaryButton variant="outline" onClick={handleEditReply}>
             EDIT REPLY
