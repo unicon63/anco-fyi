@@ -77,9 +77,6 @@ export default function ConfirmationView() {
       className="phone-frame flex flex-col animate-fade-slide"
       style={{ minHeight: "100svh" }}
     >
-      {/* Safe area */}
-      <div className="hidden sm:block" style={{ height: "56px", flexShrink: 0 }} />
-
       {/* ANCO.FYI mark */}
       <div
         className="text-center font-sans font-medium tracking-[0.22em] uppercase"
@@ -87,7 +84,7 @@ export default function ConfirmationView() {
           fontSize: "11px",
           color: "#0F1B47",
           opacity: 0.7,
-          marginTop: "22px",
+          marginTop: "8px",
           flexShrink: 0,
         }}
       >
