@@ -235,7 +235,7 @@ export default function RSVPForm() {
             disabled={!valid}
             loading={submitting}
           >
-            {isFinalStep ? "SEND RSVP" : "CONTINUE"}
+            {(isFinalStep || (step === 2 && data.attending === "no")) ? "SEND RSVP" : "CONTINUE"}
           </PrimaryButton>
         </div>
       </div>
