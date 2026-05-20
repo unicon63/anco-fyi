@@ -92,7 +92,7 @@ export default function ConfirmationView() {
       </div>
 
       {/* Main content */}
-      <div style={{ flex: 1, padding: "36px 24px 0" }}>
+      <div style={{ flex: 1, padding: "16px 24px 0" }}>
         {/* THANK YOU headline */}
         <h1
           className="font-serif"
