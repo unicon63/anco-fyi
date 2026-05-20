@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
     const attendingLabel = ATTENDING_LABELS[data.attending] || data.attending;
     const stayLabel = data.stay ? (STAY_LABELS[data.stay] || data.stay) : "";
 
-    // Columns: Timestamp, Name, Email, Attendance, PostalAddress_Line1–4, DietaryRequirements, AccommodationPreference
+    // Columns: Timestamp, Name, Email, Attendance, Line1, Line2, City, Postcode, Country, Dietary, Accommodation
     const row = [
       timestamp,
       data.name.trim(),
@@ -57,9 +57,8 @@ export async function POST(request: NextRequest) {
       attendingLabel,
       data.address?.line1 || "",
       data.address?.line2 || "",
-      data.address?.city
-        ? `${data.address.city}${data.address.postcode ? " " + data.address.postcode : ""}`
-        : "",
+      data.address?.city || "",
+      data.address?.postcode || "",
       data.address?.country || "",
       data.dietary?.trim() || "",
       stayLabel,
@@ -67,7 +66,7 @@ export async function POST(request: NextRequest) {
 
     await sheets.spreadsheets.values.append({
       spreadsheetId: SHEET_ID,
-      range: `${SHEET_NAME}!A:J`,
+      range: `${SHEET_NAME}!A:K`,
       valueInputOption: "USER_ENTERED",
       insertDataOption: "INSERT_ROWS",
       requestBody: {
