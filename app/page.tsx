@@ -49,7 +49,7 @@ export default function HeroPage() {
       <div style={{ height: "0px", flexShrink: 0 }} />
 
       {/* Title block — 28px left padding */}
-      <div style={{ padding: "0 28px", marginTop: "40px", flexShrink: 0 }}>
+      <div style={{ padding: "0 28px", marginTop: "20px", flexShrink: 0 }}>
         <p
           className="font-serif"
           style={{

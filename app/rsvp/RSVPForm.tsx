@@ -58,8 +58,21 @@ export default function RSVPForm() {
     if (!canContinue(step, data)) return;
 
     if (step === 2 && data.attending === "no") {
-      // Declined — skip to confirmation
-      router.push("/confirmation?declined=true&name=" + encodeURIComponent(data.name));
+      // Declined — submit minimal data then skip to confirmation
+      setSubmitting(true);
+      setError(null);
+      try {
+        await fetch("/api/submit-rsvp", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+        sessionStorage.setItem("rsvp-data", JSON.stringify(data));
+        router.push("/confirmation?declined=true&name=" + encodeURIComponent(data.name));
+      } catch {
+        setError("Something went wrong. Please try again.");
+        setSubmitting(false);
+      }
       return;
     }
 
