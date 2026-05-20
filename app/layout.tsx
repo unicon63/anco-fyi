@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Instrument_Serif, Work_Sans } from "next/font/google";
 import "./globals.css";
+import AudioPlayer from "@/components/AudioPlayer";
 
 const instrumentSerif = Instrument_Serif({
   weight: ["400"],
@@ -41,6 +42,7 @@ export default function RootLayout({
         <div className="app-bg">
           {children}
         </div>
+        <AudioPlayer />
       </body>
     </html>
   );

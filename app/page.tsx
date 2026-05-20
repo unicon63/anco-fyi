@@ -4,6 +4,7 @@ import PrimaryButton from "@/components/PrimaryButton";
 
 export default function HeroPage() {
   return (
+    <>
     <div
       className="phone-frame flex flex-col"
       style={{ minHeight: "100svh" }}
@@ -127,6 +128,9 @@ export default function HeroPage() {
           </Link>
         </div>
       </div>
+
     </div>
+
+    </>
   );
 }
