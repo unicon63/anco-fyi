@@ -27,17 +27,17 @@ export default function HeroPage() {
       <div style={{ height: "0px", flexShrink: 0 }} />
 
       {/* Rhinestone PNG */}
-      <div className="flex justify-center items-center" style={{ flex: 1, minHeight: "0px", maxHeight: "100%", paddingTop: "24px" }}>
+      <div className="flex justify-center items-center" style={{ flex: 1, minHeight: "0px", paddingTop: "24px" }}>
         <Image
-          src="/assets/to-be-wed-transparent.png"
+          src="/assets/tobewed3.png"
           alt="To Be Wed"
-          width={302}
-          height={428}
+          width={436}
+          height={618}
           priority
+          className="rhinestone-img"
           style={{
-            maxWidth: "max(258px, min(302px, 70vw))",
+            maxWidth: "max(373px, min(436px, 85vw))",
             width: "100%",
-            maxHeight: "100%",
             minHeight: "150px",
             height: "auto",
             objectFit: "contain",

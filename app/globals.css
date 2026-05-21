@@ -209,3 +209,10 @@
     padding: 12px 24px 28px !important;
   }
 }
+
+/* Reduce rhinestone size on desktop */
+@media (min-width: 550px) {
+  .rhinestone-img {
+    max-width: 322px !important;
+  }
+}
