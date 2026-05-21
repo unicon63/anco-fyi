@@ -12,6 +12,7 @@ export default function AudioPlayer() {
         bottom: "20px",
         right: "20px",
         display: "flex",
+        flexWrap: "nowrap",
         alignItems: "center",
         gap: "8px",
         zIndex: 99999,
@@ -24,6 +25,7 @@ export default function AudioPlayer() {
             opacity: 0.5,
             fontFamily: "var(--font-work-sans)",
             transition: "opacity 0.3s ease",
+            whiteSpace: "nowrap",
           }}
         >
           Play →

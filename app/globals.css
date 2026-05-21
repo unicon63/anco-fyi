@@ -196,11 +196,6 @@
     background-position: center;
   }
 
-  #music-toggle {
-    position: absolute;
-    bottom: 16px;
-    right: 16px;
-  }
 }
 
 /* Fix confirmation page button position on desktop */

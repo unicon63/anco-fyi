@@ -90,6 +90,7 @@ export default function HeroPage() {
             textTransform: "uppercase",
             lineHeight: 1.4,
             margin: 0,
+            textDecoration: "none",
           }}
         >
           NEAR LICCIANA NARDI, TUSCANY, ITALY
