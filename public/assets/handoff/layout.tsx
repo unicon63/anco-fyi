@@ -1,3 +1,12 @@
+// app/layout.tsx — UPDATED
+// Only two lines change vs. your current file:
+//   1. Import SkyBackground
+//   2. Render <SkyBackground /> as the first child of <body>
+//
+// Mounting it here (not inside any page) is what keeps the cloud animation
+// running continuously across `/`, `/rsvp`, `/confirmation` — the layout
+// component never unmounts during client-side navigation.
+
 import type { Metadata } from "next";
 import { Instrument_Serif, Work_Sans } from "next/font/google";
 import "./globals.css";

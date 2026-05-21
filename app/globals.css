@@ -109,13 +109,16 @@
   animation: spin 0.9s linear infinite;
 }
 
+/* Sit above the fixed sky layer */
+.app-bg {
+  position: relative;
+  z-index: 1;
+}
+
 /* Mobile: full-bleed (default) */
 .phone-frame {
   width: 100%;
   min-height: 100svh;
-  background-image: url('/assets/background-phone-screen.png');
-  background-size: cover;
-  background-position: center;
 }
 
 /* Mobile: full-bleed (under 550px) */
@@ -149,9 +152,6 @@
     border-radius: 0;
     box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 15px 40px rgba(0, 0, 0, 0.4);
     overflow: hidden;
-    background-image: url('/assets/background-phone-screen.png');
-    background-size: cover;
-    background-position: center;
   }
 }
 
@@ -191,9 +191,6 @@
     border-radius: 0;
     box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 15px 40px rgba(0, 0, 0, 0.4);
     overflow: hidden;
-    background-image: url('/assets/background-phone-screen.png');
-    background-size: cover;
-    background-position: center;
   }
 
 }
@@ -210,4 +207,148 @@
   .rhinestone-img {
     max-width: 322px !important;
   }
+}
+
+/* ─── Cloud animation ─────────────────────────────────────────────────────
+   APPEND this block to the BOTTOM of app/globals.css.
+   Also REMOVE the three `background-image: url('/assets/background-phone-screen.png')`
+   declarations from .phone-frame (see globals-css.patch.md for exact diff).
+   ────────────────────────────────────────────────────────────────────── */
+
+.sky-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background: #09144C; /* matches body fallback while images load */
+
+  /* tweak values locked in from design exploration */
+  --drift-1: 85s;
+  --drift-2: 85s;
+  --drift-3: 75s;
+  --bob-amp: 3px;
+  --bob-1: 18s;
+  --bob-2: 14s;
+  --bob-3: 11s;
+
+  --size-1: 50%;
+  --size-2: 31%;
+  --size-3: 25%;
+
+  --x-1: 82%;
+  --x-2: 57%;
+  --x-3: 64%;
+
+  --y-1: 69%;
+  --y-2: 77%;
+  --y-3: 87%;
+}
+
+.sky-bg__inner {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.sky-bg__sky {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+}
+
+/* Each cloud lives inside a "track" the same width as the inner frame.
+   Two identical copies, the duplicate offset by exactly +100%, make the
+   wrap seamless: as one copy leaves on one side, the other enters from
+   the opposite side. */
+.sky-bg__track {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 0;
+  pointer-events: none;
+  will-change: transform;
+}
+.sky-bg__track--1 { top: var(--y-1); animation: sky-bg-drift var(--drift-1) linear infinite; }
+.sky-bg__track--2 { top: var(--y-2); animation: sky-bg-drift var(--drift-2) linear infinite -40s; }
+.sky-bg__track--3 { top: var(--y-3); animation: sky-bg-drift var(--drift-3) linear infinite -20s; }
+
+.sky-bg__cloud {
+  position: absolute;
+  top: 0;
+  height: auto;
+  transform: translateX(-50%);
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.sky-bg__cloud--1 { width: var(--size-1); left: var(--x-1);
+                    animation: sky-bg-bob var(--bob-1) ease-in-out infinite; }
+.sky-bg__cloud--2 { width: var(--size-2); left: var(--x-2);
+                    animation: sky-bg-bob var(--bob-2) ease-in-out infinite -3s; }
+.sky-bg__cloud--3 { width: var(--size-3); left: var(--x-3);
+                    animation: sky-bg-bob var(--bob-3) ease-in-out infinite -5s; }
+
+.sky-bg__cloud--dup.sky-bg__cloud--1 { left: calc(var(--x-1) + 100%); }
+.sky-bg__cloud--dup.sky-bg__cloud--2 { left: calc(var(--x-2) + 100%); }
+.sky-bg__cloud--dup.sky-bg__cloud--3 { left: calc(var(--x-3) + 100%); }
+
+@keyframes sky-bg-drift {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100%); }
+}
+@keyframes sky-bg-bob {
+  0%, 100% { transform: translate(-50%, calc(var(--bob-amp) * -1)); }
+  50%      { transform: translate(-50%, var(--bob-amp)); }
+}
+
+/* Match the .phone-frame sizing so the sky shows where the form sits */
+/* Mobile <550px → already full viewport via .sky-bg inset:0 */
+
+/* Tablet/desktop: flex-center the inner card inside the fixed viewport layer */
+@media (min-width: 550px) {
+  .sky-bg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .sky-bg__inner {
+    position: relative;
+    inset: auto;
+    flex-shrink: 0;
+  }
+}
+
+/* Tablet 550–829px: sized to match .phone-frame */
+@media (min-width: 550px) and (max-width: 829px) {
+  .sky-bg__inner {
+    height: calc(620px + (40 * ((100vh - 600px) / 230)));
+  }
+}
+@media (min-width: 550px) and (max-width: 640px) {
+  .sky-bg__inner {
+    width: 92vw;
+    max-width: 545px;
+  }
+}
+@media (min-width: 641px) and (max-width: 829px) {
+  .sky-bg__inner {
+    width: calc(545px - (45 * ((100vw - 641px) / 189)));
+  }
+}
+
+/* Desktop 830px+: locked 500×660 centered card */
+@media (min-width: 830px) {
+  .sky-bg__inner {
+    width: 500px;
+    height: 660px;
+  }
+}
+
+/* Respect OS-level reduce-motion */
+@media (prefers-reduced-motion: reduce) {
+  .sky-bg__track,
+  .sky-bg__cloud { animation: none !important; }
 }
