@@ -82,6 +82,7 @@ export default function HeroPage() {
 
         <p
           className="font-serif"
+          data-address="false"
           style={{
             fontSize: "16px",
             color: "#0F1B47",
@@ -91,6 +92,9 @@ export default function HeroPage() {
             lineHeight: 1.4,
             margin: 0,
             textDecoration: "none",
+            pointerEvents: "none",
+            userSelect: "none",
+            WebkitUserSelect: "none",
           }}
         >
           NEAR LICCIANA NARDI, TUSCANY, ITALY
