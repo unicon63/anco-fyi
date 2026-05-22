@@ -244,7 +244,7 @@ export default function RSVPForm() {
 }
 
 const STEP_TITLES: Record<number, string> = {
-  1: "Name",
+  1: "Full name",
   2: "Will you be attending?",
   3: "Email address",
   4: "Postal address",
