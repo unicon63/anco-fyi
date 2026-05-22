@@ -329,8 +329,8 @@ function StepBody({ step, data, setData, onEnter }: StepBodyProps) {
 // ─── Step 2: Attending ────────────────────────────────────────────────────────
 
 const ATTENDING_OPTIONS: { letter: string; value: AttendingValue; label: string }[] = [
-  { letter: "A", value: "both", label: "Yes, both days; Saturday 19th for the <strong>wedding</strong>, and Sunday 20th for the <strong>day-2 rave</strong>" },
-  { letter: "B", value: "sat", label: "Just Saturday 19th for the <strong>wedding</strong>" },
+  { letter: "A", value: "both", label: "Yes, both days; Saturday 19th for the wedding, and Sunday 20th for the day-2 party" },
+  { letter: "B", value: "sat", label: "Just Saturday 19th for the wedding" },
   { letter: "C", value: "longer", label: "Yes, both days and likely longer to enjoy the area" },
   { letter: "D", value: "no", label: "Sadly not" },
 ];

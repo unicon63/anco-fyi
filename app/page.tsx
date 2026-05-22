@@ -75,7 +75,7 @@ export default function HeroPage() {
             margin: 0,
           }}
         >
-          JUNE 19—21 2027
+          JUNE 19—20 2027
         </p>
 
         <div style={{ height: "12px" }} />
