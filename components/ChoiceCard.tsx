@@ -51,9 +51,8 @@ export default function ChoiceCard({
         <span
           className="font-sans text-[16px] font-normal leading-[1.4] pt-[3px]"
           style={{ color: "#0F1B47" }}
-        >
-          {label}
-        </span>
+          dangerouslySetInnerHTML={{ __html: label }}
+        />
       </div>
     </button>
   );
