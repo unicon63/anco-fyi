@@ -122,7 +122,7 @@
 }
 
 /* Mobile: full-bleed (under 550px) */
-@media (max-width: 549px) {
+@media (max-width: 599px) {
   body {
     background-color: transparent;
   }
@@ -133,8 +133,8 @@
   }
 }
 
-/* Floating card 550-829px: body shared styles */
-@media (min-width: 550px) and (max-width: 829px) {
+/* Floating card 600-829px */
+@media (min-width: 600px) and (max-width: 829px) {
   body {
     background-color: #09144C;
     display: flex;
@@ -145,28 +145,14 @@
   }
 
   .phone-frame {
-    height: calc(620px + (40 * ((100vh - 600px) / 230)));
+    width: 545px;
+    height: calc(660px + (40 * ((100vh - 600px) / 230)));
     min-height: unset !important;
     max-height: unset;
     margin: 0;
     border-radius: 0;
     box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 15px 40px rgba(0, 0, 0, 0.4);
     overflow: hidden;
-  }
-}
-
-/* Floating card 550-640px: uses viewport width */
-@media (min-width: 550px) and (max-width: 640px) {
-  .phone-frame {
-    width: 92vw;
-    max-width: 545px;
-  }
-}
-
-/* Floating card 641-829px: transitions to fixed width */
-@media (min-width: 641px) and (max-width: 829px) {
-  .phone-frame {
-    width: calc(545px - (45 * ((100vw - 641px) / 189)));
   }
 }
 
@@ -183,10 +169,10 @@
 
   .phone-frame {
     position: relative;
-    width: 500px;
-    height: 660px;
-    min-height: 660px !important;
-    max-height: 660px;
+    width: 545px;
+    height: 700px;
+    min-height: 700px !important;
+    max-height: 700px;
     margin: 0;
     border-radius: 0;
     box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 15px 40px rgba(0, 0, 0, 0.4);
@@ -196,14 +182,14 @@
 }
 
 /* Fix confirmation page button position on desktop */
-@media (min-width: 550px) {
+@media (min-width: 600px) {
   .confirmation-buttons {
     padding: 12px 24px 28px !important;
   }
 }
 
 /* Reduce rhinestone size on desktop */
-@media (min-width: 550px) {
+@media (min-width: 600px) {
   .rhinestone-img {
     max-width: 322px !important;
   }
@@ -308,7 +294,7 @@
 /* Mobile <550px → already full viewport via .sky-bg inset:0 */
 
 /* Tablet/desktop: flex-center the inner card inside the fixed viewport layer */
-@media (min-width: 550px) {
+@media (min-width: 600px) {
   .sky-bg {
     display: flex;
     align-items: center;
@@ -321,29 +307,19 @@
   }
 }
 
-/* Tablet 550–829px: sized to match .phone-frame */
-@media (min-width: 550px) and (max-width: 829px) {
+/* Tablet 600–829px: sized to match .phone-frame */
+@media (min-width: 600px) and (max-width: 829px) {
   .sky-bg__inner {
-    height: calc(620px + (40 * ((100vh - 600px) / 230)));
-  }
-}
-@media (min-width: 550px) and (max-width: 640px) {
-  .sky-bg__inner {
-    width: 92vw;
-    max-width: 545px;
-  }
-}
-@media (min-width: 641px) and (max-width: 829px) {
-  .sky-bg__inner {
-    width: calc(545px - (45 * ((100vw - 641px) / 189)));
+    width: 545px;
+    height: calc(660px + (40 * ((100vh - 600px) / 230)));
   }
 }
 
-/* Desktop 830px+: locked 500×660 centered card */
+/* Desktop 830px+: locked 545×700 centered card */
 @media (min-width: 830px) {
   .sky-bg__inner {
-    width: 500px;
-    height: 660px;
+    width: 545px;
+    height: 700px;
   }
 }
 

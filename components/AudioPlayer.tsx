@@ -79,7 +79,7 @@ export default function AudioPlayer() {
       `}} />
 
       <style dangerouslySetInnerHTML={{__html: `
-        @media (min-width: 550px) {
+        @media (min-width: 600px) {
           #music-toggle {
             color: #F7F1E2 !important;
           }

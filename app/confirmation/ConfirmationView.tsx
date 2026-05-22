@@ -114,7 +114,7 @@ export default function ConfirmationView() {
             fontSize: "16px",
             color: "#0F1B47",
             opacity: 0.8,
-            margin: "0 0 28px",
+            margin: "0 0 20px",
             lineHeight: 1.5,
           }}
         >
@@ -126,7 +126,7 @@ export default function ConfirmationView() {
       </div>
 
       {/* Spacer */}
-      <div style={{ flex: 1, minHeight: "24px" }} />
+      <div style={{ flex: 0.5, minHeight: "12px" }} />
 
       {/* Action buttons */}
       <div className="confirmation-buttons" style={{ padding: "12px 24px 44px", flexShrink: 0 }}>
@@ -135,7 +135,7 @@ export default function ConfirmationView() {
             EDIT REPLY
           </PrimaryButton>
           <PrimaryButton onClick={handleStartOver}>
-            START OVER
+            HOME
           </PrimaryButton>
         </div>
       </div>
