@@ -554,7 +554,7 @@ function TravelInfoStep() {
           >
             Aulla Lunigiana Station
           </a>{" "}
-          is 15 mins from the venue.
+          is 15 min drive from the venue.
         </p>
       </div>
     </div>
