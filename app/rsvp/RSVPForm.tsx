@@ -564,7 +564,7 @@ function TravelInfoStep() {
 // ─── Step 7: Stay ────────────────────────────────────────────────────────────
 
 const STAY_OPTIONS: { letter: string; value: StayValue; label: string }[] = [
-  { letter: "A", value: "tent", label: "I'd like to stay in a tent on site with basic amenities" },
+  { letter: "A", value: "tent", label: "I'd like to stay on site in a provided tent with basic amenities" },
   { letter: "B", value: "own", label: "I'll sort my own accommodation" },
   { letter: "C", value: "help", label: "I'd love some help finding somewhere nearby" },
 ];

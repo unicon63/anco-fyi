@@ -1,6 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { google } from "googleapis";
-import { RSVPData, ATTENDING_LABELS, STAY_LABELS } from "@/lib/types";
+import { RSVPData } from "@/lib/types";
+
+// Short values for spreadsheet readability (form text is unchanged)
+const ATTENDING_SHORT: Record<string, string> = {
+  both: "19th & 20th",
+  sat: "19th only",
+  longer: "19th, 20th & more",
+  no: "No",
+};
+
+const STAY_SHORT: Record<string, string> = {
+  tent: "Tent on site",
+  own: "Own accommodation",
+  help: "Need help",
+};
 
 const SHEET_ID = "1zmUlnAMNemOQ3Ne2Mlm_X0M4cdPa8lz0L9ikpKxleyw";
 const SHEET_NAME = "RSVPs";
@@ -46,8 +60,8 @@ export async function POST(request: NextRequest) {
     const sheets = google.sheets({ version: "v4", auth });
 
     const timestamp = new Date().toISOString();
-    const attendingLabel = ATTENDING_LABELS[data.attending] || data.attending;
-    const stayLabel = data.stay ? (STAY_LABELS[data.stay] || data.stay) : "";
+    const attendingLabel = ATTENDING_SHORT[data.attending] || data.attending;
+    const stayLabel = data.stay ? (STAY_SHORT[data.stay] || data.stay) : "";
 
     // Columns: Timestamp, Name, Email, Attendance, Line1, Line2, City, Postcode, Country, Dietary, Accommodation
     const row = [
