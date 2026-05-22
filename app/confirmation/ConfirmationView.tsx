@@ -47,14 +47,16 @@ export default function ConfirmationView() {
     .filter(Boolean)
     .join(", ");
 
+  const stripHtml = (html: string) => html.replace(/<[^>]*>/g, '');
+
   const summaryRows = isDeclined
     ? [
         { label: "NAME", value: data.name },
-        { label: "ATTENDING", value: ATTENDING_LABELS[data.attending] || data.attending },
+        { label: "ATTENDING", value: stripHtml(ATTENDING_LABELS[data.attending] || data.attending) },
       ]
     : [
         { label: "NAME", value: data.name },
-        { label: "ATTENDING", value: ATTENDING_LABELS[data.attending] || data.attending },
+        { label: "ATTENDING", value: stripHtml(ATTENDING_LABELS[data.attending] || data.attending) },
         { label: "EMAIL", value: data.email },
         { label: "POSTAL", value: postalValue || "—" },
         { label: "DIETARY", value: data.dietary.trim() || "—" },
