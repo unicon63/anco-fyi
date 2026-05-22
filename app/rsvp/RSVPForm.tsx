@@ -9,7 +9,7 @@ import TextInput from "@/components/TextInput";
 import AddressInput from "@/components/AddressInput";
 import NoteCard from "@/components/NoteCard";
 
-const TOTAL_STEPS = 6;
+const TOTAL_STEPS = 7;
 
 const initialData: RSVPData = {
   name: "",
@@ -22,12 +22,13 @@ const initialData: RSVPData = {
 
 function canContinue(step: number, data: RSVPData): boolean {
   switch (step) {
-    case 1: return data.name.trim().length > 1;
-    case 2: return !!data.attending;
+    case 1: return true;
+    case 2: return data.name.trim().length > 1;
     case 3: return /.+@.+\..+/.test(data.email);
-    case 4: return !!(data.address.line1 && data.address.city && data.address.country);
-    case 5: return true;
-    case 6: return !!data.stay;
+    case 4: return !!data.attending;
+    case 5: return !!(data.address.line1 && data.address.city && data.address.country);
+    case 6: return true;
+    case 7: return !!data.stay;
     default: return false;
   }
 }
@@ -57,7 +58,7 @@ export default function RSVPForm() {
   const advance = useCallback(async () => {
     if (!canContinue(step, data)) return;
 
-    if (step === 2 && data.attending === "no") {
+    if (step === 4 && data.attending === "no") {
       // Declined — submit minimal data then skip to confirmation
       setSubmitting(true);
       setError(null);
@@ -79,7 +80,7 @@ export default function RSVPForm() {
     // Persist data so edit-reply works
     sessionStorage.setItem("rsvp-data", JSON.stringify(data));
 
-    if (step === 6) {
+    if (step === 7) {
       // Final step — submit
       setSubmitting(true);
       setError(null);
@@ -115,7 +116,7 @@ export default function RSVPForm() {
 
   const progress = (step / TOTAL_STEPS) * 100;
   const valid = canContinue(step, data);
-  const isFinalStep = step === 6;
+  const isFinalStep = step === 7;
 
   return (
     <div className="phone-frame flex flex-col">
@@ -209,8 +210,8 @@ export default function RSVPForm() {
 
         {/* Footer */}
         <div style={{ padding: "12px 24px 28px", flexShrink: 0 }}>
-          {/* Note card for step 6 */}
-          {step === 6 && data.stay && STAY_NOTES[data.stay] && (
+          {/* Note card for step 7 */}
+          {step === 7 && data.stay && STAY_NOTES[data.stay] && (
             <div className="animate-fade-slide">
               <NoteCard text={STAY_NOTES[data.stay]} />
             </div>
@@ -235,7 +236,7 @@ export default function RSVPForm() {
             disabled={!valid}
             loading={submitting}
           >
-            {(isFinalStep || (step === 2 && data.attending === "no")) ? "SEND RSVP" : "CONTINUE"}
+            {(isFinalStep || (step === 4 && data.attending === "no")) ? "SEND RSVP" : "CONTINUE"}
           </PrimaryButton>
         </div>
       </div>
@@ -244,12 +245,13 @@ export default function RSVPForm() {
 }
 
 const STEP_TITLES: Record<number, string> = {
-  1: "Full name",
-  2: "Will you be attending?",
+  1: "Travel information",
+  2: "Full name",
   3: "Email address",
-  4: "Postal address",
-  5: "Dietary requirements or allergies",
-  6: "Where will you be staying?",
+  4: "Will you be attending?",
+  5: "Postal address",
+  6: "Dietary requirements or allergies",
+  7: "Where will you be staying?",
 };
 
 interface StepBodyProps {
@@ -262,6 +264,9 @@ interface StepBodyProps {
 function StepBody({ step, data, setData, onEnter }: StepBodyProps) {
   switch (step) {
     case 1:
+      return <TravelInfoStep />;
+
+    case 2:
       return (
         <TextInput
           value={data.name}
@@ -269,14 +274,6 @@ function StepBody({ step, data, setData, onEnter }: StepBodyProps) {
           placeholder="Your name"
           autoFocus
           onEnter={onEnter}
-        />
-      );
-
-    case 2:
-      return (
-        <AttendingStep
-          value={data.attending}
-          onChange={(v) => setData((d) => ({ ...d, attending: v }))}
         />
       );
 
@@ -294,13 +291,21 @@ function StepBody({ step, data, setData, onEnter }: StepBodyProps) {
 
     case 4:
       return (
+        <AttendingStep
+          value={data.attending}
+          onChange={(v) => setData((d) => ({ ...d, attending: v }))}
+        />
+      );
+
+    case 5:
+      return (
         <AddressStep
           value={data.address}
           onChange={(v) => setData((d) => ({ ...d, address: v }))}
         />
       );
 
-    case 5:
+    case 6:
       return (
         <DietaryStep
           value={data.dietary}
@@ -308,7 +313,7 @@ function StepBody({ step, data, setData, onEnter }: StepBodyProps) {
         />
       );
 
-    case 6:
+    case 7:
       return (
         <StayStep
           value={data.stay}
@@ -456,7 +461,107 @@ function DietaryStep({
   );
 }
 
-// ─── Step 6: Stay ────────────────────────────────────────────────────────────
+// ─── Step 6: Travel Info ─────────────────────────────────────────────────────
+
+const infoCardStyle: import("react").CSSProperties = {
+  background: "rgba(247, 241, 226, 0.72)",
+  WebkitBackdropFilter: "blur(4px)",
+  backdropFilter: "blur(4px)",
+  boxShadow: "0 1px 2px rgba(15,27,71,0.05), 0 8px 20px rgba(15,27,71,0.10)",
+  borderRadius: "14px",
+  padding: "16px 18px",
+};
+
+const infoHeadingStyle: import("react").CSSProperties = {
+  fontSize: "11px",
+  color: "#0F1B47",
+  opacity: 0.55,
+  letterSpacing: "0.1em",
+  textTransform: "uppercase",
+  margin: "0 0 6px",
+  fontFamily: "var(--font-work-sans), system-ui, sans-serif",
+  fontWeight: 600,
+};
+
+const infoBodyStyle: import("react").CSSProperties = {
+  fontSize: "15px",
+  color: "#0F1B47",
+  lineHeight: 1.55,
+  margin: 0,
+  fontFamily: "var(--font-work-sans), system-ui, sans-serif",
+};
+
+function TravelInfoStep() {
+  return (
+    <div className="flex flex-col" style={{ gap: "12px" }}>
+      {/* Location card */}
+      <div style={infoCardStyle}>
+        <p style={infoHeadingStyle}>LOCATION</p>
+        <p style={infoBodyStyle}>
+          The venue is near Licciana Nardi in Lunigiana, northern Tuscany.
+        </p>
+        <a
+          href="https://www.google.com/maps?q=44.253583,10.040472"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-serif"
+          style={{
+            display: "block",
+            marginTop: "8px",
+            fontSize: "14px",
+            color: "#0F1B47",
+            letterSpacing: "0.04em",
+            textTransform: "uppercase",
+            textDecorationLine: "underline",
+            textDecorationColor: "rgba(15, 27, 71, 0.3)",
+            textDecorationThickness: "1px",
+            textUnderlineOffset: "2px",
+          }}
+        >
+          44°15′12.9″N&nbsp;&nbsp;10°02′25.7″E
+        </a>
+      </div>
+
+      {/* Airports card */}
+      <div style={infoCardStyle}>
+        <p style={infoHeadingStyle}>AIRPORTS</p>
+        {[
+          "Pisa Airport — 1hr drive",
+          "Genova Airport — 1hr 20min drive",
+          "Bologna Airport — 2hr 20min drive",
+          "Milan Linate Airport — 2hr 30min drive",
+        ].map((line) => (
+          <p key={line} style={{ ...infoBodyStyle, lineHeight: 1.65 }}>{line}</p>
+        ))}
+      </div>
+
+      {/* Train card */}
+      <div style={infoCardStyle}>
+        <p style={infoHeadingStyle}>TRAIN STATION</p>
+        <p style={infoBodyStyle}>
+          If travelling by train,{" "}
+          <a
+            href="https://maps.app.goo.gl/RDvaew1fFoXxqH9H9"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              color: "#0F1B47",
+              textDecorationLine: "underline",
+              textDecorationColor: "rgba(15, 27, 71, 0.3)",
+              textDecorationThickness: "1px",
+              textUnderlineOffset: "2px",
+            }}
+          >
+            Aulla Lunigiana Station
+          </a>{" "}
+          is 15 mins from the venue.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+// ─── Step 7: Stay ────────────────────────────────────────────────────────────
 
 const STAY_OPTIONS: { letter: string; value: StayValue; label: string }[] = [
   { letter: "A", value: "tent", label: "I'd like to stay in a tent on site with basic amenities" },

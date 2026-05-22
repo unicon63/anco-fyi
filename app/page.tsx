@@ -120,6 +120,7 @@ export default function HeroPage() {
         >
           44°15′12.9″N&nbsp;&nbsp;10°02′25.7″E
         </a>
+
       </div>
 
       {/* Fixed 40px gap between location and RSVP */}
