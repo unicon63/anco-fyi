@@ -17,8 +17,8 @@ export interface RSVPData {
 }
 
 export const ATTENDING_LABELS: Record<string, string> = {
-  both: "Yes, both days",
-  sat: "Just Saturday 19th",
+  both: "Yes, Saturday 19th for the wedding and reception, and Sunday 20th for the day-after celebration",
+  sat: "Just Saturday 19th for the wedding and reception",
   longer: "Yes, both days and likely longer to enjoy the area",
   no: "Sadly not",
 };
