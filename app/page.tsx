@@ -123,8 +123,8 @@ export default function HeroPage() {
 
       </div>
 
-      {/* Fixed 40px gap between location and RSVP */}
-      <div style={{ height: "40px", flexShrink: 0 }} />
+      {/* Gap between location and RSVP - reduces on short viewports */}
+      <div className="location-rsvp-gap" style={{ height: "40px", flexShrink: 0 }} />
 
       {/* RSVP button locked to bottom */}
       <div style={{ padding: "0 24px 28px", flexShrink: 0 }}>
