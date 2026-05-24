@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import PrimaryButton from "@/components/PrimaryButton";
+import RhinestoneSparkles from "@/components/RhinestoneSparkles";
 
 export default function HeroPage() {
   return (
@@ -44,6 +45,7 @@ export default function HeroPage() {
             filter: "drop-shadow(0 1px 2px rgba(15, 27, 71, 0.2))",
           }}
         />
+        <RhinestoneSparkles />
       </div>
 
       {/* 0px gap after rhinestone */}
