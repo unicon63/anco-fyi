@@ -304,10 +304,10 @@
   }
 }
 
-/* Desktop rhinestone size (KEEP EXISTING - DO NOT MODIFY) */
+/* Desktop rhinestone size - increased 15% */
 @media (min-width: 600px) {
   .rhinestone-img {
-    max-width: 322px !important;
+    max-width: 370px !important;
   }
 }
 
