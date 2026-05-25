@@ -71,7 +71,7 @@ export default function AudioPlayer() {
               isPlaying = false;
             } else {
               audio.play();
-              btn.textContent = '⏸';
+              btn.textContent = '❚❚';
               isPlaying = true;
             }
           });
