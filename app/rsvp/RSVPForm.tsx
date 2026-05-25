@@ -231,13 +231,15 @@ export default function RSVPForm() {
             </div>
           )}
 
-          <PrimaryButton
-            onClick={advance}
-            disabled={!valid}
-            loading={submitting}
-          >
-            {(isFinalStep || (step === 4 && data.attending === "no")) ? "SEND RSVP" : "CONTINUE"}
-          </PrimaryButton>
+          <div className="flex justify-center">
+            <PrimaryButton
+              onClick={advance}
+              disabled={!valid}
+              loading={submitting}
+            >
+              {(isFinalStep || (step === 4 && data.attending === "no")) ? "SEND RSVP" : "CONTINUE"}
+            </PrimaryButton>
+          </div>
         </div>
       </div>
     </div>

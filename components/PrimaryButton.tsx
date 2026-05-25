@@ -57,14 +57,14 @@ export default function PrimaryButton({
       bg-[rgba(15,27,71,0.25)] text-[rgba(247,241,226,0.7)]
       shadow-[0_1px_2px_rgba(15,27,71,0.08)]
       cursor-not-allowed
-      ${isHero ? "px-9 py-[18px] min-w-[150px]" : "w-full px-6 py-[18px]"}
+      ${isHero ? "px-9 py-[18px] min-w-[150px]" : "px-9 py-[18px] min-w-[150px]"}
     `;
   } else {
     stateClasses = `
       bg-[#09144C] text-[#F7F1E2]
       shadow-[0_2px_6px_rgba(15,27,71,0.18),0_18px_36px_rgba(15,27,71,0.22)]
       cursor-pointer
-      ${isHero ? "px-9 py-[18px] min-w-[150px]" : "w-full px-6 py-[18px]"}
+      ${isHero ? "px-9 py-[18px] min-w-[150px]" : "px-9 py-[18px] min-w-[150px]"}
     `;
   }
 
