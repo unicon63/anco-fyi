@@ -65,7 +65,7 @@ export default function ConfirmationView() {
 
   const handleEditReply = () => {
     // Return to last relevant step
-    const targetStep = isDeclined ? 2 : 6;
+    const targetStep = isDeclined ? 2 : 7;
     router.push(`/rsvp?edit=${targetStep}`);
   };
 

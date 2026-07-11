@@ -9,7 +9,7 @@ import TextInput from "@/components/TextInput";
 import AddressInput from "@/components/AddressInput";
 import NoteCard from "@/components/NoteCard";
 
-const TOTAL_STEPS = 7;
+const TOTAL_STEPS = 8;
 
 const initialData: RSVPData = {
   name: "",
@@ -25,10 +25,11 @@ function canContinue(step: number, data: RSVPData): boolean {
     case 1: return true;
     case 2: return data.name.trim().length > 1;
     case 3: return /.+@.+\..+/.test(data.email);
-    case 4: return !!data.attending;
-    case 5: return !!(data.address.line1 && data.address.city && data.address.country);
-    case 6: return true;
-    case 7: return !!data.stay;
+    case 4: return true;
+    case 5: return !!data.attending;
+    case 6: return !!(data.address.line1 && data.address.city && data.address.country);
+    case 7: return true;
+    case 8: return !!data.stay;
     default: return false;
   }
 }
@@ -58,7 +59,7 @@ export default function RSVPForm() {
   const advance = useCallback(async () => {
     if (!canContinue(step, data)) return;
 
-    if (step === 4 && data.attending === "no") {
+    if (step === 5 && data.attending === "no") {
       // Declined — submit minimal data then skip to confirmation
       setSubmitting(true);
       setError(null);
@@ -80,7 +81,7 @@ export default function RSVPForm() {
     // Persist data so edit-reply works
     sessionStorage.setItem("rsvp-data", JSON.stringify(data));
 
-    if (step === 7) {
+    if (step === 8) {
       // Final step — submit
       setSubmitting(true);
       setError(null);
@@ -116,7 +117,7 @@ export default function RSVPForm() {
 
   const progress = (step / TOTAL_STEPS) * 100;
   const valid = canContinue(step, data);
-  const isFinalStep = step === 7;
+  const isFinalStep = step === 8;
 
   return (
     <div className="phone-frame flex flex-col">
@@ -211,7 +212,7 @@ export default function RSVPForm() {
         {/* Footer */}
         <div style={{ padding: "12px 24px 28px", flexShrink: 0 }}>
           {/* Note card for step 7 */}
-          {step === 7 && data.stay && STAY_NOTES[data.stay] && (
+          {step === 8 && data.stay && STAY_NOTES[data.stay] && (
             <div className="animate-fade-slide">
               <NoteCard text={STAY_NOTES[data.stay]} />
             </div>
@@ -237,7 +238,7 @@ export default function RSVPForm() {
               disabled={!valid}
               loading={submitting}
             >
-              {(isFinalStep || (step === 4 && data.attending === "no")) ? "SEND RSVP" : "CONTINUE"}
+              {(isFinalStep || (step === 5 && data.attending === "no")) ? "SEND RSVP" : "CONTINUE"}
             </PrimaryButton>
           </div>
         </div>
@@ -250,10 +251,11 @@ const STEP_TITLES: Record<number, string> = {
   1: "Travel information",
   2: "Full name",
   3: "Email address",
-  4: "Will you be attending?",
-  5: "Postal address",
-  6: "Dietary requirements or allergies",
-  7: "Where will you be staying?",
+  4: "Itinerary",
+  5: "Will you be attending?",
+  6: "Postal address",
+  7: "Dietary requirements or allergies",
+  8: "Where will you be staying?",
 };
 
 interface StepBodyProps {
@@ -292,6 +294,9 @@ function StepBody({ step, data, setData, onEnter }: StepBodyProps) {
       );
 
     case 4:
+      return <ItineraryStep />;
+
+    case 5:
       return (
         <AttendingStep
           value={data.attending}
@@ -299,7 +304,7 @@ function StepBody({ step, data, setData, onEnter }: StepBodyProps) {
         />
       );
 
-    case 5:
+    case 6:
       return (
         <AddressStep
           value={data.address}
@@ -307,7 +312,7 @@ function StepBody({ step, data, setData, onEnter }: StepBodyProps) {
         />
       );
 
-    case 6:
+    case 7:
       return (
         <DietaryStep
           value={data.dietary}
@@ -315,7 +320,7 @@ function StepBody({ step, data, setData, onEnter }: StepBodyProps) {
         />
       );
 
-    case 7:
+    case 8:
       return (
         <StayStep
           value={data.stay}
@@ -333,8 +338,7 @@ function StepBody({ step, data, setData, onEnter }: StepBodyProps) {
 const ATTENDING_OPTIONS: { letter: string; value: AttendingValue; label: string }[] = [
   { letter: "A", value: "both", label: "Yes, both days; Saturday 19th for the wedding, and Sunday 20th for the day-2 party" },
   { letter: "B", value: "sat", label: "Just Saturday 19th for the wedding" },
-  { letter: "C", value: "longer", label: "Yes, both days and likely longer to enjoy the area" },
-  { letter: "D", value: "no", label: "Sadly not" },
+  { letter: "C", value: "no", label: "Sadly not" },
 ];
 
 function AttendingStep({
@@ -502,6 +506,9 @@ function TravelInfoStep() {
         <p style={infoBodyStyle}>
           The venue is near Licciana Nardi in Lunigiana, northern Tuscany.
         </p>
+        <p style={{ ...infoBodyStyle, marginTop: "6px" }}>
+          We recommend sharing a hire car.
+        </p>
         <a
           href="https://www.google.com/maps?q=44.253583,10.040472"
           target="_blank"
@@ -563,12 +570,60 @@ function TravelInfoStep() {
   );
 }
 
-// ─── Step 7: Stay ────────────────────────────────────────────────────────────
+const mapLinkStyle: import("react").CSSProperties = {
+  color: "#0F1B47",
+  textDecorationLine: "underline",
+  textDecorationColor: "rgba(15, 27, 71, 0.3)",
+  textDecorationThickness: "1px",
+  textUnderlineOffset: "2px",
+};
+
+function ItineraryStep() {
+  return (
+    <div className="flex flex-col" style={{ gap: "12px" }}>
+      {/* Friday card */}
+      <div style={infoCardStyle}>
+        <p style={infoHeadingStyle}>FRIDAY — EVENING DRINKS (OPTIONAL)</p>
+        <p style={{ ...infoBodyStyle, lineHeight: 1.65 }}>
+          Location:{" "}
+          <a href="https://maps.app.goo.gl/xdNDSm2r5RQTpQhL7" target="_blank" rel="noopener noreferrer" style={mapLinkStyle}>Bagnone</a>
+        </p>
+        <p style={{ ...infoBodyStyle, lineHeight: 1.65 }}>Time: 20:30 (after dinner)</p>
+        <p style={{ ...infoBodyStyle, lineHeight: 1.65 }}>Dress: Smart Casual</p>
+      </div>
+
+      {/* Saturday card */}
+      <div style={infoCardStyle}>
+        <p style={infoHeadingStyle}>SATURDAY — ANNIE &amp; NICO'S WEDDING</p>
+        <p style={{ ...infoBodyStyle, lineHeight: 1.65 }}>
+          Location:{" "}
+          <a href="https://maps.app.goo.gl/u9iHESJmEEcYMTiU7" target="_blank" rel="noopener noreferrer" style={mapLinkStyle}>Casa Dell'Angelo</a>
+        </p>
+        <p style={{ ...infoBodyStyle, lineHeight: 1.65 }}>Guests arrive: 16:30</p>
+        <p style={{ ...infoBodyStyle, lineHeight: 1.65 }}>Ceremony: 17:00</p>
+        <p style={{ ...infoBodyStyle, lineHeight: 1.65 }}>Reception: 18:00 – 02:00</p>
+        <p style={{ ...infoBodyStyle, lineHeight: 1.65 }}>Dress: Toscana Elegante</p>
+      </div>
+
+      {/* Sunday card */}
+      <div style={infoCardStyle}>
+        <p style={infoHeadingStyle}>SUNDAY — FESTA IN GIARDINO (OPTIONAL)</p>
+        <p style={{ ...infoBodyStyle, lineHeight: 1.65 }}>
+          Location:{" "}
+          <a href="https://maps.app.goo.gl/9tVYWCC71cpM4LCv6" target="_blank" rel="noopener noreferrer" style={mapLinkStyle}>Casa Del Torrentello</a>
+        </p>
+        <p style={{ ...infoBodyStyle, lineHeight: 1.65 }}>Time: 16:00 – 23:00</p>
+        <p style={{ ...infoBodyStyle, lineHeight: 1.65 }}>Dress: Pool Chic</p>
+      </div>
+    </div>
+  );
+}
+
+// ─── Step 8: Stay ────────────────────────────────────────────────────────────
 
 const STAY_OPTIONS: { letter: string; value: StayValue; label: string }[] = [
-  { letter: "A", value: "tent", label: "I'd like to stay on site in a provided tent with basic amenities" },
-  { letter: "B", value: "own", label: "I'll sort my own accommodation" },
-  { letter: "C", value: "help", label: "I'd love some help finding somewhere nearby" },
+  { letter: "A", value: "own", label: "I'll sort my own accommodation" },
+  { letter: "B", value: "help", label: "I'd like some help finding somewhere nearby" },
 ];
 
 function StayStep({

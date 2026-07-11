@@ -6,12 +6,10 @@ import { RSVPData } from "@/lib/types";
 const ATTENDING_SHORT: Record<string, string> = {
   both: "19th & 20th",
   sat: "19th only",
-  longer: "19th, 20th & more",
   no: "No",
 };
 
 const STAY_SHORT: Record<string, string> = {
-  tent: "Tent on site",
   own: "Own accommodation",
   help: "Need help",
 };
