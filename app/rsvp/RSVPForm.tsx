@@ -594,10 +594,10 @@ function ItineraryStep() {
 
       {/* Saturday card */}
       <div style={infoCardStyle}>
-        <p style={infoHeadingStyle}>SATURDAY — ANNIE &amp; NICO'S WEDDING</p>
+        <p style={infoHeadingStyle}>SATURDAY — ANNIE &amp; NICO&apos;S WEDDING</p>
         <p style={{ ...infoBodyStyle, lineHeight: 1.65 }}>
           Location:{" "}
-          <a href="https://maps.app.goo.gl/u9iHESJmEEcYMTiU7" target="_blank" rel="noopener noreferrer" style={mapLinkStyle}>Casa Dell'Angelo</a>
+          <a href="https://maps.app.goo.gl/u9iHESJmEEcYMTiU7" target="_blank" rel="noopener noreferrer" style={mapLinkStyle}>Casa Dell&apos;Angelo</a>
         </p>
         <p style={{ ...infoBodyStyle, lineHeight: 1.65 }}>Guests arrive: 16:30</p>
         <p style={{ ...infoBodyStyle, lineHeight: 1.65 }}>Ceremony: 17:00</p>
