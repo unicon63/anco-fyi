@@ -326,37 +326,37 @@
    These classes are applied in RSVPForm.tsx; inline styles on those elements
    must not set max-width / font-size / height / padding-top (removed). */
 
-.welcome-content   { padding-top: 76px; }
-.welcome-photo     { max-width: 380px; }
-.welcome-letter    { font-size: 17px; }
-.welcome-buffer    { height: 77px; }
-.welcome-photo-gap { min-height: 63px; }
+/* Two-zone model handles vertical distribution via flex.
+   Only per-breakpoint sizing left is photo max-width and letter font-size. */
+.welcome-photo    { max-width: 380px; }
+.welcome-letter   { font-size: 17px; }
 
-/* Mobile short (390×≤699px) */
+/* Two-zone model — flex ratios and buffers per breakpoint */
+.welcome-top-zone    { flex: 1; padding-bottom: 24px; }
+.welcome-bottom-zone { flex: 1; padding-top: 24px; }
+
+/* Mobile short (390×≤699px) — same 50/50 as base */
 @media (max-width: 599px) and (max-height: 699px) {
-  .welcome-content   { padding-top: 30px; }
-  .welcome-photo     { max-width: 449px; }
-  .welcome-letter    { font-size: 15px; }
-  .welcome-buffer    { height: 40px; }
-  .welcome-photo-gap { min-height: 24px; }
+  .welcome-photo   { max-width: 449px; }
+  .welcome-letter  { font-size: 15px; }
+  .welcome-top-zone    { flex: 1; padding-bottom: 24px; }
+  .welcome-bottom-zone { flex: 1; padding-top: 24px; }
 }
 
-/* Tablet (545px frame, 660–700px tall) */
+/* Tablet (545px frame) — 65/35 with 16px buffer */
 @media (min-width: 600px) and (max-width: 829px) {
-  .welcome-content   { padding-top: 33px; }
-  .welcome-photo     { max-width: 403px; }
-  .welcome-letter    { font-size: 17px; }
-  .welcome-buffer    { height: 12px; }
-  .welcome-photo-gap { min-height: 63px; }
+  .welcome-photo   { max-width: 403px; }
+  .welcome-letter  { font-size: 16px; }
+  .welcome-top-zone    { flex: 65; padding-bottom: 16px; }
+  .welcome-bottom-zone { flex: 35; padding-top: 16px; }
 }
 
-/* Desktop (545×700px frame) */
+/* Desktop (545×700px frame) — 65/35 with 16px buffer */
 @media (min-width: 830px) {
-  .welcome-content   { padding-top: 30px; }
-  .welcome-photo     { max-width: 449px; }
-  .welcome-letter    { font-size: 17px; }
-  .welcome-buffer    { height: 26px; }
-  .welcome-photo-gap { min-height: 63px; }
+  .welcome-photo   { max-width: 449px; }
+  .welcome-letter  { font-size: 16px; }
+  .welcome-top-zone    { flex: 65; padding-bottom: 16px; }
+  .welcome-bottom-zone { flex: 35; padding-top: 16px; }
 }
 
 /* ─── Cloud animation ─────────────────────────────────────────────────────

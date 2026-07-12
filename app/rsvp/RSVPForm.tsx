@@ -433,61 +433,59 @@ function WelcomeLetterStep({
           alignItems: "center",
         }}
       >
-        {/* Photo — 92% wide, max-width from .welcome-photo CSS, aspect-ratio 3/2 */}
-        <div
-          className="welcome-photo"
-          style={{
-            width: "92%",
-            aspectRatio: "3 / 2",
-            position: "relative",
-            borderRadius: "4px",
-            overflow: "hidden",
-            flexShrink: 0,
-            boxShadow: "0 18px 40px -18px rgba(3,7,25,0.55)",
-          }}
-        >
-          <Image
-            src="/assets/photo-couple.jpg"
-            alt="Annie and Nico"
-            fill
-            style={{ objectFit: "cover" }}
-            priority
-          />
+        {/* Top zone: photo bottom-aligned */}
+        <div className="welcome-top-zone" style={{ width: "100%", display: "flex", flexDirection: "column", justifyContent: "flex-end", alignItems: "center", minHeight: 0 }}>
+          <div
+            className="welcome-photo"
+            style={{
+              width: "92%",
+              aspectRatio: "3 / 2",
+              position: "relative",
+              borderRadius: "4px",
+              overflow: "hidden",
+              flexShrink: 0,
+              boxShadow: "0 18px 40px -18px rgba(3,7,25,0.55)",
+            }}
+          >
+            <Image
+              src="/assets/photo-couple.jpg"
+              alt="Annie and Nico"
+              fill
+              style={{ objectFit: "cover" }}
+              priority
+            />
+          </div>
         </div>
 
-        {/* Spacer — absorbs all remaining space so the letter stays at the bottom */}
-        <div className="welcome-photo-gap" style={{ flex: 1, minHeight: 0 }} />
-
-        {/* Letter — font-size from .welcome-letter CSS, pinned to bottom by spacer above */}
-        <div
-          className="welcome-letter"
-          style={{
-            width: "92%",
-            fontFamily: "var(--font-instrument-serif), Georgia, serif",
-            lineHeight: 1.5,
-            letterSpacing: "0.02em",
-            color: "#0F1B47",
-            textAlign: "center",
-            flexShrink: 0,
-          }}
-        >
-          <p style={{ margin: 0 }}>
-            Ciao Amori,
-            <br />
-            <br />
-            We would love for you to join us for our wedding, though we know
-            Tuscany is a long way to come. To help us plan, we&rsquo;d really
-            appreciate a few minutes filling out this form. Nico&rsquo;s
-            Italian roots bring us to Lunigiana,{" "}
-            <em>the land of the moon</em>, where the wedding will be held at
-            the family&rsquo;s casa. Casa dell&rsquo;Angelo,{" "}
-            <em>the house of the angel</em>, feels like the fitting place to
-            host our nearest and dearest.
-          </p>
+        {/* Bottom zone: letter top-aligned */}
+        <div className="welcome-bottom-zone" style={{ width: "100%", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "center", minHeight: 0 }}>
+          <div
+            className="welcome-letter"
+            style={{
+              width: "92%",
+              fontFamily: "var(--font-instrument-serif), Georgia, serif",
+              lineHeight: 1.5,
+              letterSpacing: "0.02em",
+              color: "#0F1B47",
+              textAlign: "center",
+              flexShrink: 0,
+            }}
+          >
+            <p style={{ margin: 0 }}>
+              Ciao Amori,
+              <br />
+              <br />
+              We would love for you to join us for our wedding, though we know
+              Tuscany is a long way to come. To help us plan, we&rsquo;d really
+              appreciate a few minutes filling out this form. Nico&rsquo;s
+              Italian roots bring us to Lunigiana,{" "}
+              <em>the land of the moon</em>, where the wedding will be held at
+              the family&rsquo;s casa. Casa dell&rsquo;Angelo,{" "}
+              <em>the house of the angel</em>, feels like the fitting place to
+              host our nearest and dearest.
+            </p>
+          </div>
         </div>
-
-        {/* Gap below letter — height from .welcome-buffer CSS */}
-        <div className="welcome-buffer" style={{ flexShrink: 0 }} />
       </div>
 
       {/* Footer: Continue button — always pinned at the bottom */}
