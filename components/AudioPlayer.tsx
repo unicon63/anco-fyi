@@ -57,6 +57,14 @@ export default function AudioPlayer() {
           const btn = document.getElementById('music-toggle');
           let isPlaying = false;
 
+          function setPlaying(playing) {
+            isPlaying = playing;
+            btn.textContent = playing ? '⏸' : '▶';
+            if ('mediaSession' in navigator) {
+              navigator.mediaSession.playbackState = playing ? 'playing' : 'paused';
+            }
+          }
+
           btn.addEventListener('click', function() {
             // Hide the "Play →" prompt on first click
             var prompt = document.getElementById('music-prompt');
@@ -67,14 +75,28 @@ export default function AudioPlayer() {
 
             if (isPlaying) {
               audio.pause();
-              btn.textContent = '▶';
-              isPlaying = false;
+              setPlaying(false);
             } else {
               audio.play();
-              btn.textContent = '⏸';
-              isPlaying = true;
+              setPlaying(true);
             }
           });
+
+          if ('mediaSession' in navigator) {
+            navigator.mediaSession.metadata = new MediaMetadata({
+              title: 'Annie & Nico',
+              artist: 'anco.fyi',
+              artwork: [{ src: '/assets/LOGO Website.png', sizes: '899x899', type: 'image/png' }],
+            });
+            navigator.mediaSession.setActionHandler('play', function() {
+              audio.play();
+              setPlaying(true);
+            });
+            navigator.mediaSession.setActionHandler('pause', function() {
+              audio.pause();
+              setPlaying(false);
+            });
+          }
         })();
       `}} />
 
