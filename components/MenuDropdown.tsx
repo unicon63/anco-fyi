@@ -106,23 +106,6 @@ export default function MenuDropdown() {
             Travel
           </Link>
           {/* ACCOMMODATION — slot here when ready */}
-          <Link
-            href="/rsvp"
-            onClick={() => setOpen(false)}
-            className="font-sans"
-            style={{
-              display: "block",
-              padding: "10px 20px",
-              fontSize: "11px",
-              fontWeight: 600,
-              letterSpacing: "0.18em",
-              textTransform: "uppercase",
-              color: "#0F1B47",
-              textDecoration: "none",
-            }}
-          >
-            RSVP
-          </Link>
         </nav>
       )}
     </div>

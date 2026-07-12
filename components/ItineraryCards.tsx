@@ -10,7 +10,7 @@ export default function ItineraryCards() {
           Location:{" "}
           <a href="https://maps.app.goo.gl/xdNDSm2r5RQTpQhL7" target="_blank" rel="noopener noreferrer" style={mapLinkStyle}>Bagnone</a>
         </p>
-        <p style={{ ...infoBodyStyle, lineHeight: 1.65 }}>Time: 20:30 (after dinner)</p>
+        <p style={{ ...infoBodyStyle, lineHeight: 1.65 }}>Time: 20:30</p>
         <p style={{ ...infoBodyStyle, lineHeight: 1.65 }}>Dress: Smart Casual</p>
       </div>
 
