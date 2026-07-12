@@ -1,7 +1,7 @@
-import TravelCards from "@/components/TravelCards";
+import ItineraryCards from "@/components/ItineraryCards";
 import MenuDropdown from "@/components/MenuDropdown";
 
-export default function TravelPage() {
+export default function ItineraryPage() {
   return (
     <div className="phone-frame flex flex-col" style={{ minHeight: "100svh" }}>
       {/* Top bar */}
@@ -30,9 +30,9 @@ export default function TravelPage() {
             lineHeight: 1.2,
           }}
         >
-          Travel
+          Itinerary
         </h1>
-        <TravelCards />
+        <ItineraryCards />
       </div>
     </div>
   );

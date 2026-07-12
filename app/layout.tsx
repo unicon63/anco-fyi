@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Instrument_Serif, Work_Sans } from "next/font/google";
+import { Instrument_Serif, Work_Sans, Fragment_Mono } from "next/font/google";
 import "./globals.css";
 import AudioPlayer from "@/components/AudioPlayer";
 import SkyBackground from "@/components/SkyBackground"; // ← NEW
@@ -17,6 +17,13 @@ const workSans = Work_Sans({
   style: ["normal", "italic"],
   subsets: ["latin"],
   variable: "--font-work-sans",
+  display: "swap",
+});
+
+const fragmentMono = Fragment_Mono({
+  weight: ["400"],
+  subsets: ["latin"],
+  variable: "--font-fragment-mono",
   display: "swap",
 });
 
@@ -38,7 +45,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${instrumentSerif.variable} ${workSans.variable}`}>
+    <html lang="en" className={`${instrumentSerif.variable} ${workSans.variable} ${fragmentMono.variable}`}>
       <body className="antialiased bg-transparent">
         <SkyBackground /> {/* ← NEW: persistent animated sky behind every route */}
         <div className="app-bg">

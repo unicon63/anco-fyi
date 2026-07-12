@@ -2,14 +2,19 @@
 
 import { useState, useCallback, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { RSVPData, AttendingValue, StayValue, STAY_NOTES } from "@/lib/types";
+import { RSVPData, AttendingValue, StayValue, STAY_NOTES, ATTENDING_LABELS, STAY_LABELS } from "@/lib/types";
 import PrimaryButton from "@/components/PrimaryButton";
 import ChoiceCard from "@/components/ChoiceCard";
 import TextInput from "@/components/TextInput";
 import AddressInput from "@/components/AddressInput";
 import NoteCard from "@/components/NoteCard";
+import SummaryCard from "@/components/SummaryCard";
+import TravelCards from "@/components/TravelCards";
+import ItineraryCards from "@/components/ItineraryCards";
+import HeroVisual from "@/components/HeroVisual";
+import Image from "next/image";
 
-const TOTAL_STEPS = 8;
+const TOTAL_STEPS = 11;
 
 const initialData: RSVPData = {
   name: "",
@@ -22,14 +27,17 @@ const initialData: RSVPData = {
 
 function canContinue(step: number, data: RSVPData): boolean {
   switch (step) {
-    case 1: return true;
-    case 2: return data.name.trim().length > 1;
-    case 3: return /.+@.+\..+/.test(data.email);
-    case 4: return true;
-    case 5: return !!data.attending;
-    case 6: return !!(data.address.line1 && data.address.city && data.address.country);
-    case 7: return true;
-    case 8: return !!data.stay;
+    case 1:  return true;
+    case 2:  return true;
+    case 3:  return data.name.trim().length > 1;
+    case 4:  return true;
+    case 5:  return true;
+    case 6:  return !!data.attending;
+    case 7:  return /.+@.+\..+/.test(data.email);
+    case 8:  return !!(data.address.line1 && data.address.city && data.address.country);
+    case 9:  return true;
+    case 10: return !!data.stay;
+    case 11: return true;
     default: return false;
   }
 }
@@ -59,7 +67,7 @@ export default function RSVPForm() {
   const advance = useCallback(async () => {
     if (!canContinue(step, data)) return;
 
-    if (step === 5 && data.attending === "no") {
+    if (step === 6 && data.attending === "no") {
       // Declined — submit minimal data then skip to confirmation
       setSubmitting(true);
       setError(null);
@@ -81,7 +89,7 @@ export default function RSVPForm() {
     // Persist data so edit-reply works
     sessionStorage.setItem("rsvp-data", JSON.stringify(data));
 
-    if (step === 8) {
+    if (step === 11) {
       // Final step — submit
       setSubmitting(true);
       setError(null);
@@ -92,7 +100,6 @@ export default function RSVPForm() {
           body: JSON.stringify(data),
         });
         if (!res.ok) throw new Error("Submission failed");
-        // Store data in sessionStorage for the confirmation page
         sessionStorage.setItem("rsvp-data", JSON.stringify(data));
         router.push("/confirmation");
       } catch {
@@ -110,14 +117,34 @@ export default function RSVPForm() {
     if (step > 1) {
       setAnimKey((k) => k + 1);
       setStep((s) => s - 1);
-    } else {
-      router.push("/");
     }
-  }, [step, router]);
+  }, [step]);
 
-  const progress = (step / TOTAL_STEPS) * 100;
+  // ── Step 1: Hero — render standalone, no form chrome ──────────────────────
+  if (step === 1) {
+    return (
+      <HeroVisual
+        action={
+          <PrimaryButton variant="hero" onClick={advance}>
+            RSVP
+          </PrimaryButton>
+        }
+      />
+    );
+  }
+
+  // ── Step 2: Welcome letter — renders standalone with its own layout ─────────
+  if (step === 2) {
+    return <WelcomeLetterStep onBack={goBack} onContinue={advance} />;
+  }
+
+  const displayedStep = step - 2;
+  const displayedTotal = 8;
+  const isRecapStep = step === 11;
+  const progress = isRecapStep ? 100 : (displayedStep / displayedTotal) * 100;
   const valid = canContinue(step, data);
-  const isFinalStep = step === 8;
+  const isFinalStep = step === 11;
+  const title = STEP_TITLES[step] ?? "";
 
   return (
     <div className="phone-frame flex flex-col">
@@ -142,13 +169,15 @@ export default function RSVPForm() {
         >
           ← BACK
         </button>
-        <span
-          className="font-sans font-semibold tracking-[0.22em] uppercase"
-          style={{ fontSize: "10px", color: "#0F1B47", opacity: 0.7 }}
-          aria-current="step"
-        >
-          {String(step).padStart(2, "0")} / {String(TOTAL_STEPS).padStart(2, "0")}
-        </span>
+        {!isRecapStep && (
+          <span
+            className="font-sans font-semibold tracking-[0.22em] uppercase"
+            style={{ fontSize: "10px", color: "#0F1B47", opacity: 0.7 }}
+            aria-current="step"
+          >
+            {String(displayedStep).padStart(2, "0")} / {String(displayedTotal).padStart(2, "0")}
+          </span>
+        )}
       </div>
 
       {/* Progress bar */}
@@ -181,25 +210,29 @@ export default function RSVPForm() {
         className="animate-fade-slide flex flex-col flex-1"
         style={{ minHeight: 0 }}
       >
-        {/* Question title */}
-        <div style={{ padding: "24px 24px 0" }}>
-          <h1
-            className="font-serif"
-            style={{
-              fontSize: "30px",
-              color: "#0F1B47",
-              letterSpacing: "0.02em",
-              textTransform: "uppercase",
-              margin: 0,
-              lineHeight: 1.2,
-            }}
-          >
-            {STEP_TITLES[step]}
-          </h1>
-        </div>
-
-        {/* 18px gap to first input */}
-        <div style={{ height: "18px" }} />
+        {/* Question title — suppressed for steps with no title (e.g. intro) */}
+        {title ? (
+          <>
+            <div style={{ padding: "24px 24px 0" }}>
+              <h1
+                className="font-serif"
+                style={{
+                  fontSize: "30px",
+                  color: "#0F1B47",
+                  letterSpacing: "0.02em",
+                  textTransform: "uppercase",
+                  margin: 0,
+                  lineHeight: 1.2,
+                }}
+              >
+                {title}
+              </h1>
+            </div>
+            <div style={{ height: "18px" }} />
+          </>
+        ) : (
+          <div style={{ height: "24px" }} />
+        )}
 
         {/* Question body */}
         <div style={{ padding: "0 24px", flex: 1 }}>
@@ -211,8 +244,8 @@ export default function RSVPForm() {
 
         {/* Footer */}
         <div style={{ padding: "12px 24px 28px", flexShrink: 0 }}>
-          {/* Note card for step 7 */}
-          {step === 8 && data.stay && STAY_NOTES[data.stay] && (
+          {/* Note card for stay step */}
+          {step === 10 && data.stay && STAY_NOTES[data.stay] && (
             <div className="animate-fade-slide">
               <NoteCard text={STAY_NOTES[data.stay]} />
             </div>
@@ -238,7 +271,7 @@ export default function RSVPForm() {
               disabled={!valid}
               loading={submitting}
             >
-              {(isFinalStep || (step === 5 && data.attending === "no")) ? "SEND RSVP" : "CONTINUE"}
+              {(isFinalStep || (step === 6 && data.attending === "no")) ? "SEND RSVP" : "CONTINUE"}
             </PrimaryButton>
           </div>
         </div>
@@ -248,14 +281,16 @@ export default function RSVPForm() {
 }
 
 const STEP_TITLES: Record<number, string> = {
-  1: "Travel information",
-  2: "Full name",
-  3: "Email address",
-  4: "Itinerary",
-  5: "Will you be attending?",
-  6: "Postal address",
-  7: "Dietary requirements or allergies",
-  8: "Where will you be staying?",
+  2: "",
+  3: "Full name",
+  4: "Travel information",
+  5: "Itinerary",
+  6: "Will you be attending?",
+  7: "Email address",
+  8: "Postal address",
+  9: "Dietary requirements or allergies",
+  10: "Where will you be staying?",
+  11: "Summary",
 };
 
 interface StepBodyProps {
@@ -267,10 +302,7 @@ interface StepBodyProps {
 
 function StepBody({ step, data, setData, onEnter }: StepBodyProps) {
   switch (step) {
-    case 1:
-      return <TravelInfoStep />;
-
-    case 2:
+    case 3:
       return (
         <TextInput
           value={data.name}
@@ -281,7 +313,21 @@ function StepBody({ step, data, setData, onEnter }: StepBodyProps) {
         />
       );
 
-    case 3:
+    case 4:
+      return <TravelInfoStep />;
+
+    case 5:
+      return <ItineraryStep />;
+
+    case 6:
+      return (
+        <AttendingStep
+          value={data.attending}
+          onChange={(v) => setData((d) => ({ ...d, attending: v }))}
+        />
+      );
+
+    case 7:
       return (
         <TextInput
           value={data.email}
@@ -293,18 +339,7 @@ function StepBody({ step, data, setData, onEnter }: StepBodyProps) {
         />
       );
 
-    case 4:
-      return <ItineraryStep />;
-
-    case 5:
-      return (
-        <AttendingStep
-          value={data.attending}
-          onChange={(v) => setData((d) => ({ ...d, attending: v }))}
-        />
-      );
-
-    case 6:
+    case 8:
       return (
         <AddressStep
           value={data.address}
@@ -312,7 +347,7 @@ function StepBody({ step, data, setData, onEnter }: StepBodyProps) {
         />
       );
 
-    case 7:
+    case 9:
       return (
         <DietaryStep
           value={data.dietary}
@@ -320,7 +355,7 @@ function StepBody({ step, data, setData, onEnter }: StepBodyProps) {
         />
       );
 
-    case 8:
+    case 10:
       return (
         <StayStep
           value={data.stay}
@@ -328,12 +363,152 @@ function StepBody({ step, data, setData, onEnter }: StepBodyProps) {
         />
       );
 
+    case 11:
+      return <RecapStep data={data} />;
+
     default:
       return null;
   }
 }
 
-// ─── Step 2: Attending ────────────────────────────────────────────────────────
+// ─── Screen 2: Welcome Letter ─────────────────────────────────────────────────
+
+function WelcomeLetterStep({
+  onBack,
+  onContinue,
+}: {
+  onBack: () => void;
+  onContinue: () => void;
+}) {
+  return (
+    <div className="phone-frame flex flex-col">
+
+      {/* Top bar — step 2: back button only, no counter, no fill */}
+      <div
+        className="flex items-center justify-between"
+        style={{ padding: "22px 18px 0" }}
+      >
+        <button
+          onClick={onBack}
+          aria-label="Go back"
+          className="font-sans font-semibold tracking-[0.22em] uppercase"
+          style={{
+            fontSize: "10px",
+            color: "#0F1B47",
+            opacity: 0.7,
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            padding: 0,
+          }}
+        >
+          ← BACK
+        </button>
+      </div>
+      {/* Thin baseline — no fill on step 2 (not yet started) */}
+      <div style={{ margin: "10px 18px 0", position: "relative" }}>
+        <div
+          style={{
+            height: "1px",
+            background: "rgba(15, 27, 71, 0.18)",
+            borderRadius: "1px",
+          }}
+        />
+      </div>
+
+      {/* Content: photo anchored at top, flex spacer fills the middle,
+          letter pinned just above the Continue button.
+          flex:1 + min-height:0 gives this a calculable height inside the
+          fixed phone-frame on desktop so overflow-y:auto acts as a safety net.
+          padding-top / font-size / buffer height / photo max-width all come
+          from the .welcome-* CSS classes in globals.css (per-breakpoint). */}
+      <div
+        className="welcome-content"
+        style={{
+          flex: 1,
+          minHeight: 0,
+          overflowY: "auto",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        {/* Photo — 92% wide, max-width from .welcome-photo CSS, aspect-ratio 3/2 */}
+        <div
+          className="welcome-photo"
+          style={{
+            width: "92%",
+            aspectRatio: "3 / 2",
+            position: "relative",
+            borderRadius: "4px",
+            overflow: "hidden",
+            flexShrink: 0,
+            boxShadow: "0 18px 40px -18px rgba(3,7,25,0.55)",
+          }}
+        >
+          <Image
+            src="/assets/photo-couple.jpg"
+            alt="Annie and Nico"
+            fill
+            style={{ objectFit: "cover" }}
+            priority
+          />
+        </div>
+
+        {/* Spacer — absorbs all remaining space so the letter stays at the bottom */}
+        <div className="welcome-photo-gap" style={{ flex: 1, minHeight: 0 }} />
+
+        {/* Letter — font-size from .welcome-letter CSS, pinned to bottom by spacer above */}
+        <div
+          className="welcome-letter"
+          style={{
+            width: "92%",
+            fontFamily: "var(--font-instrument-serif), Georgia, serif",
+            lineHeight: 1.5,
+            letterSpacing: "0.02em",
+            color: "#0F1B47",
+            textAlign: "center",
+            flexShrink: 0,
+          }}
+        >
+          <p style={{ margin: 0 }}>
+            Ciao Amori,
+            <br />
+            <br />
+            We would love for you to join us for our wedding, though we know
+            Tuscany is a long way to come. To help us plan, we&rsquo;d really
+            appreciate a few minutes filling out this form. Nico&rsquo;s
+            Italian roots bring us to Lunigiana,{" "}
+            <em>the land of the moon</em>, where the wedding will be held at
+            the family&rsquo;s casa. Casa dell&rsquo;Angelo,{" "}
+            <em>the house of the angel</em>, feels like the fitting place to
+            host our nearest and dearest.
+          </p>
+        </div>
+
+        {/* Gap below letter — height from .welcome-buffer CSS */}
+        <div className="welcome-buffer" style={{ flexShrink: 0 }} />
+      </div>
+
+      {/* Footer: Continue button — always pinned at the bottom */}
+      <div
+        style={{
+          padding: "12px 24px 28px",
+          flexShrink: 0,
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <PrimaryButton onClick={onContinue}>
+          CONTINUE
+        </PrimaryButton>
+      </div>
+
+    </div>
+  );
+}
+
+// ─── Step 6: Attending ────────────────────────────────────────────────────────
 
 const ATTENDING_OPTIONS: { letter: string; value: AttendingValue; label: string }[] = [
   { letter: "A", value: "both", label: "Yes, both days; Saturday 19th for the wedding, and Sunday 20th for the day-2 party" },
@@ -363,7 +538,7 @@ function AttendingStep({
   );
 }
 
-// ─── Step 4: Address ─────────────────────────────────────────────────────────
+// ─── Step 8: Address ─────────────────────────────────────────────────────────
 
 interface AddressValue {
   line1: string;
@@ -426,7 +601,7 @@ function AddressStep({
   );
 }
 
-// ─── Step 5: Dietary ─────────────────────────────────────────────────────────
+// ─── Step 9: Dietary ─────────────────────────────────────────────────────────
 
 function DietaryStep({
   value,
@@ -467,159 +642,17 @@ function DietaryStep({
   );
 }
 
-// ─── Step 6: Travel Info ─────────────────────────────────────────────────────
-
-const infoCardStyle: import("react").CSSProperties = {
-  background: "rgba(247, 241, 226, 0.72)",
-  WebkitBackdropFilter: "blur(4px)",
-  backdropFilter: "blur(4px)",
-  boxShadow: "0 1px 2px rgba(15,27,71,0.05), 0 8px 20px rgba(15,27,71,0.10)",
-  borderRadius: "14px",
-  padding: "16px 18px",
-};
-
-const infoHeadingStyle: import("react").CSSProperties = {
-  fontSize: "11px",
-  color: "#0F1B47",
-  opacity: 0.55,
-  letterSpacing: "0.1em",
-  textTransform: "uppercase",
-  margin: "0 0 6px",
-  fontFamily: "var(--font-work-sans), system-ui, sans-serif",
-  fontWeight: 600,
-};
-
-const infoBodyStyle: import("react").CSSProperties = {
-  fontSize: "15px",
-  color: "#0F1B47",
-  lineHeight: 1.55,
-  margin: 0,
-  fontFamily: "var(--font-work-sans), system-ui, sans-serif",
-};
+// ─── Steps 4 & 5: Travel / Itinerary ─────────────────────────────────────────
 
 function TravelInfoStep() {
-  return (
-    <div className="flex flex-col" style={{ gap: "12px" }}>
-      {/* Location card */}
-      <div style={infoCardStyle}>
-        <p style={infoHeadingStyle}>LOCATION</p>
-        <p style={infoBodyStyle}>
-          The venue is near Licciana Nardi in Lunigiana, northern Tuscany.
-        </p>
-        <p style={{ ...infoBodyStyle, marginTop: "6px" }}>
-          We recommend sharing a hire car.
-        </p>
-        <a
-          href="https://www.google.com/maps?q=44.253583,10.040472"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="font-serif"
-          style={{
-            display: "block",
-            marginTop: "8px",
-            fontSize: "14px",
-            color: "#0F1B47",
-            letterSpacing: "0.04em",
-            textTransform: "uppercase",
-            textDecorationLine: "underline",
-            textDecorationColor: "rgba(15, 27, 71, 0.3)",
-            textDecorationThickness: "1px",
-            textUnderlineOffset: "2px",
-          }}
-        >
-          44°15′12.9″N&nbsp;&nbsp;10°02′25.7″E
-        </a>
-      </div>
-
-      {/* Airports card */}
-      <div style={infoCardStyle}>
-        <p style={infoHeadingStyle}>AIRPORTS</p>
-        {[
-          "Pisa Airport — 1hr drive",
-          "Genova Airport — 1hr 20min drive",
-          "Bologna Airport — 2hr 20min drive",
-          "Milan Linate Airport — 2hr 30min drive",
-        ].map((line) => (
-          <p key={line} style={{ ...infoBodyStyle, lineHeight: 1.65 }}>{line}</p>
-        ))}
-      </div>
-
-      {/* Train card */}
-      <div style={infoCardStyle}>
-        <p style={infoHeadingStyle}>TRAIN STATION</p>
-        <p style={infoBodyStyle}>
-          If travelling by train,{" "}
-          <a
-            href="https://maps.app.goo.gl/RDvaew1fFoXxqH9H9"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              color: "#0F1B47",
-              textDecorationLine: "underline",
-              textDecorationColor: "rgba(15, 27, 71, 0.3)",
-              textDecorationThickness: "1px",
-              textUnderlineOffset: "2px",
-            }}
-          >
-            Aulla Lunigiana Station
-          </a>{" "}
-          is 15 min drive from the venue.
-        </p>
-      </div>
-    </div>
-  );
+  return <TravelCards />;
 }
-
-const mapLinkStyle: import("react").CSSProperties = {
-  color: "#0F1B47",
-  textDecorationLine: "underline",
-  textDecorationColor: "rgba(15, 27, 71, 0.3)",
-  textDecorationThickness: "1px",
-  textUnderlineOffset: "2px",
-};
 
 function ItineraryStep() {
-  return (
-    <div className="flex flex-col" style={{ gap: "12px" }}>
-      {/* Friday card */}
-      <div style={infoCardStyle}>
-        <p style={infoHeadingStyle}>FRIDAY — EVENING DRINKS (OPTIONAL)</p>
-        <p style={{ ...infoBodyStyle, lineHeight: 1.65 }}>
-          Location:{" "}
-          <a href="https://maps.app.goo.gl/xdNDSm2r5RQTpQhL7" target="_blank" rel="noopener noreferrer" style={mapLinkStyle}>Bagnone</a>
-        </p>
-        <p style={{ ...infoBodyStyle, lineHeight: 1.65 }}>Time: 20:30 (after dinner)</p>
-        <p style={{ ...infoBodyStyle, lineHeight: 1.65 }}>Dress: Smart Casual</p>
-      </div>
-
-      {/* Saturday card */}
-      <div style={infoCardStyle}>
-        <p style={infoHeadingStyle}>SATURDAY — ANNIE &amp; NICO&apos;S WEDDING</p>
-        <p style={{ ...infoBodyStyle, lineHeight: 1.65 }}>
-          Location:{" "}
-          <a href="https://maps.app.goo.gl/u9iHESJmEEcYMTiU7" target="_blank" rel="noopener noreferrer" style={mapLinkStyle}>Casa Dell&apos;Angelo</a>
-        </p>
-        <p style={{ ...infoBodyStyle, lineHeight: 1.65 }}>Guests arrive: 16:30</p>
-        <p style={{ ...infoBodyStyle, lineHeight: 1.65 }}>Ceremony: 17:00</p>
-        <p style={{ ...infoBodyStyle, lineHeight: 1.65 }}>Reception: 18:00 – 02:00</p>
-        <p style={{ ...infoBodyStyle, lineHeight: 1.65 }}>Dress: Toscana Elegante</p>
-      </div>
-
-      {/* Sunday card */}
-      <div style={infoCardStyle}>
-        <p style={infoHeadingStyle}>SUNDAY — FESTA IN GIARDINO (OPTIONAL)</p>
-        <p style={{ ...infoBodyStyle, lineHeight: 1.65 }}>
-          Location:{" "}
-          <a href="https://maps.app.goo.gl/9tVYWCC71cpM4LCv6" target="_blank" rel="noopener noreferrer" style={mapLinkStyle}>Casa Del Torrentello</a>
-        </p>
-        <p style={{ ...infoBodyStyle, lineHeight: 1.65 }}>Time: 16:00 – 23:00</p>
-        <p style={{ ...infoBodyStyle, lineHeight: 1.65 }}>Dress: Pool Chic</p>
-      </div>
-    </div>
-  );
+  return <ItineraryCards />;
 }
 
-// ─── Step 8: Stay ────────────────────────────────────────────────────────────
+// ─── Step 10: Stay ────────────────────────────────────────────────────────────
 
 const STAY_OPTIONS: { letter: string; value: StayValue; label: string }[] = [
   { letter: "A", value: "own", label: "I'll sort my own accommodation" },
@@ -646,4 +679,32 @@ function StayStep({
       ))}
     </div>
   );
+}
+
+// ─── Step 11: Recap ────────────────────────────────────────────────────────────
+
+function RecapStep({ data }: { data: RSVPData }) {
+  const stripHtml = (html: string) => html.replace(/<[^>]*>/g, "");
+
+  const postalValue = [
+    data.address.line1,
+    data.address.line2,
+    data.address.city && data.address.postcode
+      ? `${data.address.city} ${data.address.postcode}`.trim()
+      : data.address.city || data.address.postcode,
+    data.address.country,
+  ]
+    .filter(Boolean)
+    .join(", ");
+
+  const summaryRows = [
+    { label: "NAME",     value: data.name },
+    { label: "ATTENDING", value: stripHtml(ATTENDING_LABELS[data.attending] || data.attending) },
+    { label: "EMAIL",    value: data.email },
+    { label: "POSTAL",   value: postalValue || "—" },
+    { label: "DIETARY",  value: data.dietary.trim() || "—" },
+    { label: "STAY",     value: STAY_LABELS[data.stay] || data.stay || "—" },
+  ];
+
+  return <SummaryCard rows={summaryRows} />;
 }

@@ -63,12 +63,6 @@ export default function ConfirmationView() {
         { label: "STAY", value: STAY_LABELS[data.stay] || data.stay || "—" },
       ];
 
-  const handleEditReply = () => {
-    // Return to last relevant step
-    const targetStep = isDeclined ? 2 : 7;
-    router.push(`/rsvp?edit=${targetStep}`);
-  };
-
   const handleStartOver = () => {
     sessionStorage.removeItem("rsvp-data");
     router.push("/");
@@ -132,10 +126,7 @@ export default function ConfirmationView() {
 
       {/* Action buttons */}
       <div className="confirmation-buttons" style={{ padding: "12px 24px 44px", flexShrink: 0 }}>
-        <div className="flex flex-col" style={{ gap: "12px" }}>
-          <PrimaryButton variant="outline" onClick={handleEditReply}>
-            EDIT REPLY
-          </PrimaryButton>
+        <div className="flex justify-center">
           <PrimaryButton onClick={handleStartOver}>
             HOME
           </PrimaryButton>
