@@ -61,13 +61,11 @@ export default function MenuDropdown() {
             position: "absolute",
             top: "calc(100% + 8px)",
             right: 0,
-            background: "rgba(247, 241, 226, 0.97)",
-            WebkitBackdropFilter: "blur(8px)",
-            backdropFilter: "blur(8px)",
-            borderRadius: "12px",
-            boxShadow: "0 2px 8px rgba(15,27,71,0.08), 0 8px 32px rgba(15,27,71,0.14)",
-            padding: "6px 0",
-            minWidth: "152px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-end",
+            gap: "14px",
+            padding: "4px 2px 0",
             zIndex: 50,
           }}
         >
@@ -77,7 +75,6 @@ export default function MenuDropdown() {
             className="font-sans"
             style={{
               display: "block",
-              padding: "10px 20px",
               fontSize: "11px",
               fontWeight: 600,
               letterSpacing: "0.18em",
@@ -94,7 +91,6 @@ export default function MenuDropdown() {
             className="font-sans"
             style={{
               display: "block",
-              padding: "10px 20px",
               fontSize: "11px",
               fontWeight: 600,
               letterSpacing: "0.18em",

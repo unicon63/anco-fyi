@@ -25,7 +25,7 @@ export default function HeroVisual({ action, topRight }: HeroVisualProps) {
 
       {/* Top-right slot — absolutely anchored to the phone-frame */}
       {topRight && (
-        <div style={{ position: "absolute", top: "8px", right: "18px", zIndex: 10 }}>
+        <div style={{ position: "absolute", top: "8px", right: "8px", zIndex: 10 }}>
           {topRight}
         </div>
       )}

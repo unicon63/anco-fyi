@@ -1,3 +1,4 @@
+import Link from "next/link";
 import ItineraryCards from "@/components/ItineraryCards";
 import MenuDropdown from "@/components/MenuDropdown";
 
@@ -6,13 +7,14 @@ export default function ItineraryPage() {
     <div className="phone-frame flex flex-col" style={{ minHeight: "100svh" }}>
       {/* Top bar */}
       <div style={{ position: "relative", padding: "8px 18px 0", flexShrink: 0 }}>
-        <div
+        <Link
+          href="/"
           className="text-center font-sans font-medium tracking-[0.22em] uppercase"
-          style={{ fontSize: "11px", color: "#0F1B47", opacity: 0.7 }}
+          style={{ fontSize: "11px", color: "#0F1B47", opacity: 0.7, textDecoration: "none", display: "block" }}
         >
           ANCO.FYI
-        </div>
-        <div style={{ position: "absolute", top: "8px", right: "18px" }}>
+        </Link>
+        <div style={{ position: "absolute", top: "8px", right: "8px" }}>
           <MenuDropdown />
         </div>
       </div>
