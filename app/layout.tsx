@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   description: "June 19–20 2027",
   metadataBase: new URL("https://anco.fyi"),
   openGraph: {
-    title: "∞ Annie & Nico ∞",
+    title: "Save the Date",
     description: "June 19–20 2027",
     url: "https://anco.fyi",
     siteName: "anco.fyi",
