@@ -86,7 +86,11 @@ export default function AudioPlayer() {
             navigator.mediaSession.metadata = new MediaMetadata({
               title: 'Annie & Nico',
               artist: 'anco.fyi',
-              artwork: [{ src: '/assets/LOGO Website.png', sizes: '899x899', type: 'image/png' }],
+              artwork: [
+                { src: '/assets/logo-square.png', sizes: '96x96', type: 'image/png' },
+                { src: '/assets/logo-square.png', sizes: '192x192', type: 'image/png' },
+                { src: '/assets/logo-square.png', sizes: '512x512', type: 'image/png' },
+              ],
             });
             navigator.mediaSession.setActionHandler('play', function() {
               audio.play();
