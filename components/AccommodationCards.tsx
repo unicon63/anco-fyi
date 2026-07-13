@@ -46,8 +46,8 @@ export default function AccommodationCards() {
         <p style={infoHeadingStyle}>ONCE YOU&rsquo;VE BOOKED</p>
         <p style={infoBodyStyle}>
           Please let Annie or Nico know where you&rsquo;re staying once
-          you&rsquo;ve booked so we can add you to the wedding transfers list;
-          we&rsquo;re arranging a lift home for anyone who&rsquo;d like one.
+          you&rsquo;ve booked, so we can keep track of the group and look into
+          arranging transport for the wedding day.
         </p>
       </div>
     </div>
