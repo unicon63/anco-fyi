@@ -14,7 +14,7 @@ export default function TravelPage() {
         >
           ANCO.FYI
         </Link>
-        <div style={{ position: "absolute", top: "8px", right: "8px" }}>
+        <div style={{ position: "absolute", top: "10px", right: "8px" }}>
           <MenuDropdown />
         </div>
       </div>

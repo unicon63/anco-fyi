@@ -16,8 +16,8 @@ const LINE_TOPS = [0, 7.25, 14.5];
 const CLOSED_HEIGHT = 16;
 
 // Label geometry (open state)
-const LABEL_TOPS = [0, 32, 64];
-const OPEN_HEIGHT = 78;
+const LABEL_TOPS = [0, 24, 48];
+const OPEN_HEIGHT = 62;
 
 export default function MenuDropdown() {
   const [open, setOpen] = useState(false);
@@ -32,8 +32,8 @@ export default function MenuDropdown() {
         setOpen(false);
       }
     }
-    document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
   }, [open]);
 
   // Close on Escape
@@ -124,22 +124,21 @@ export default function MenuDropdown() {
         ))}
 
         {/* Button overlay — covers hamburger zone when closed */}
-        {!open && (
-          <button
-            onClick={() => setOpen(true)}
-            aria-label="Open menu"
-            aria-expanded={false}
-            style={{
-              position: "absolute",
-              inset: "-4px",
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              zIndex: 2,
-              padding: 0,
-            }}
-          />
-        )}
+        <button
+          onClick={() => { if (!open) setOpen(true); }}
+          aria-label={open ? "Close menu" : "Open menu"}
+          aria-expanded={open}
+          style={{
+            position: "absolute",
+            inset: "-4px",
+            background: "none",
+            border: "none",
+            cursor: open ? "default" : "pointer",
+            zIndex: 2,
+            padding: 0,
+            pointerEvents: open ? "none" : "auto",
+          }}
+        />
       </div>
     </div>
   );

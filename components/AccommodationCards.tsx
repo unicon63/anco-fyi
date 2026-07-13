@@ -9,13 +9,16 @@ export default function AccommodationCards() {
         <p style={infoBodyStyle}>
           If you&rsquo;re booking your own accommodation, we recommend doing
           so soon. The venue is fairly isolated, so nearby places will fill
-          up quickly. Good areas to look are between the venue and Comano,
-          Fivizzano, Aulla and Bagnone.
-        </p>
-        <p style={{ ...infoBodyStyle, marginTop: "8px" }}>
-          Once you&rsquo;ve booked, please let us know so we can add you to
-          the wedding transfers list; we&rsquo;re arranging a lift home for
-          anyone who&rsquo;d like one.
+          up quickly. Good areas to look are between the{" "}
+          <a
+            href="https://maps.app.goo.gl/u9iHESJmEEcYMTiU7"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={mapLinkStyle}
+          >
+            venue
+          </a>
+          {" "}and Comano, Fivizzano, Aulla and Bagnone.
         </p>
       </div>
 
@@ -35,6 +38,16 @@ export default function AccommodationCards() {
           . Just let her know you&rsquo;re coming to Annie &amp; Nico&rsquo;s
           wedding and how many are in your group, and she&rsquo;ll help find
           something suitable.
+        </p>
+      </div>
+
+      {/* Once you've booked card */}
+      <div style={infoCardStyle}>
+        <p style={infoHeadingStyle}>ONCE YOU&rsquo;VE BOOKED</p>
+        <p style={infoBodyStyle}>
+          Please let Annie or Nico know where you&rsquo;re staying once
+          you&rsquo;ve booked so we can add you to the wedding transfers list;
+          we&rsquo;re arranging a lift home for anyone who&rsquo;d like one.
         </p>
       </div>
     </div>
