@@ -13,6 +13,7 @@ import TravelCards from "@/components/TravelCards";
 import ItineraryCards from "@/components/ItineraryCards";
 import AccommodationCards from "@/components/AccommodationCards";
 import HeroVisual from "@/components/HeroVisual";
+import MenuDropdown from "@/components/MenuDropdown";
 import Image from "next/image";
 
 const TOTAL_STEPS = 12;
@@ -131,6 +132,7 @@ export default function RSVPForm() {
             RSVP
           </PrimaryButton>
         }
+        topRight={<MenuDropdown />}
       />
     );
   }
