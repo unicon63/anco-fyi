@@ -487,7 +487,7 @@ function WelcomeLetterStep({
               the family&rsquo;s casa. Casa dell&rsquo;Angelo,{" "}
               <em>the house of the angel</em>, feels like the fitting place to
               host our nearest and dearest. To help us plan, we&rsquo;d really
-              appreciate a few minutes filling out this form.
+              appreciate your time filling out this form.
             </p>
           </div>
         </div>
