@@ -11,10 +11,11 @@ import NoteCard from "@/components/NoteCard";
 import SummaryCard from "@/components/SummaryCard";
 import TravelCards from "@/components/TravelCards";
 import ItineraryCards from "@/components/ItineraryCards";
+import AccommodationCards from "@/components/AccommodationCards";
 import HeroVisual from "@/components/HeroVisual";
 import Image from "next/image";
 
-const TOTAL_STEPS = 11;
+const TOTAL_STEPS = 12;
 
 const initialData: RSVPData = {
   name: "",
@@ -37,7 +38,8 @@ function canContinue(step: number, data: RSVPData): boolean {
     case 8:  return !!(data.address.line1 && data.address.city && data.address.country);
     case 9:  return true;
     case 10: return !!data.stay;
-    case 11: return true;
+    case 11: return true;   // accommodation info
+    case 12: return true;   // summary/recap
     default: return false;
   }
 }
@@ -89,7 +91,7 @@ export default function RSVPForm() {
     // Persist data so edit-reply works
     sessionStorage.setItem("rsvp-data", JSON.stringify(data));
 
-    if (step === 11) {
+    if (step === 12) {
       // Final step — submit
       setSubmitting(true);
       setError(null);
@@ -139,11 +141,11 @@ export default function RSVPForm() {
   }
 
   const displayedStep = step - 2;
-  const displayedTotal = 8;
-  const isRecapStep = step === 11;
+  const displayedTotal = 9;
+  const isRecapStep = step === 12;
   const progress = isRecapStep ? 100 : (displayedStep / displayedTotal) * 100;
   const valid = canContinue(step, data);
-  const isFinalStep = step === 11;
+  const isFinalStep = step === 12;
   const title = STEP_TITLES[step] ?? "";
 
   return (
@@ -290,7 +292,8 @@ const STEP_TITLES: Record<number, string> = {
   8: "Postal address",
   9: "Dietary requirements or allergies",
   10: "Where will you be staying?",
-  11: "Summary",
+  11: "Accommodation",
+  12: "Summary",
 };
 
 interface StepBodyProps {
@@ -364,6 +367,9 @@ function StepBody({ step, data, setData, onEnter }: StepBodyProps) {
       );
 
     case 11:
+      return <AccommodationStep />;
+
+    case 12:
       return <RecapStep data={data} />;
 
     default:
@@ -649,6 +655,10 @@ function ItineraryStep() {
   return <ItineraryCards />;
 }
 
+function AccommodationStep() {
+  return <AccommodationCards />;
+}
+
 // ─── Step 10: Stay ────────────────────────────────────────────────────────────
 
 const STAY_OPTIONS: { letter: string; value: StayValue; label: string }[] = [
@@ -678,7 +688,7 @@ function StayStep({
   );
 }
 
-// ─── Step 11: Recap ────────────────────────────────────────────────────────────
+// ─── Step 12: Recap ────────────────────────────────────────────────────────────
 
 function RecapStep({ data }: { data: RSVPData }) {
   const stripHtml = (html: string) => html.replace(/<[^>]*>/g, "");
