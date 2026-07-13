@@ -130,7 +130,10 @@ export default function MenuDropdown() {
           aria-expanded={open}
           style={{
             position: "absolute",
-            inset: "-4px",
+            top: "-14px",
+            right: "-14px",
+            width: "44px",
+            height: "44px",
             background: "none",
             border: "none",
             cursor: open ? "default" : "pointer",
