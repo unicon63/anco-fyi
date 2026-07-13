@@ -1,7 +1,7 @@
 import { CSSProperties } from "react";
 
 export const infoCardStyle: CSSProperties = {
-  background: "rgba(247, 241, 226, 0.72)",
+  background: "rgba(247, 241, 226, 0.52)",
   WebkitBackdropFilter: "blur(4px)",
   backdropFilter: "blur(4px)",
   boxShadow: "0 1px 2px rgba(15,27,71,0.05), 0 8px 20px rgba(15,27,71,0.10)",

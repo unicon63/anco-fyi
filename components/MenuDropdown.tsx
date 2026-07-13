@@ -1,11 +1,28 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+
+const MENU_ITEMS = [
+  { label: "Accommodation", href: "/accommodation" },
+  { label: "Itinerary", href: "/itinerary" },
+  { label: "Travel", href: "/travel" },
+] as const;
+
+// Line geometry (closed hamburger)
+const LINE_WIDTH = 18;
+const LINE_HEIGHT = 1.5;
+const LINE_TOPS = [0, 7.25, 14.5];
+const CLOSED_HEIGHT = 16;
+
+// Label geometry (open state)
+const LABEL_TOPS = [0, 32, 64];
+const OPEN_HEIGHT = 78;
 
 export default function MenuDropdown() {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   // Close on outside click
   useEffect(() => {
@@ -31,94 +48,99 @@ export default function MenuDropdown() {
 
   return (
     <div ref={ref} style={{ position: "relative" }}>
-      <button
-        onClick={() => setOpen((o) => !o)}
-        aria-label={open ? "Close menu" : "Open menu"}
-        aria-expanded={open}
+      <div
         style={{
-          background: "none",
-          border: "none",
-          cursor: "pointer",
-          padding: "4px",
-          color: "#0F1B47",
-          opacity: 0.7,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+          position: "relative",
+          height: open ? `${OPEN_HEIGHT}px` : `${CLOSED_HEIGHT}px`,
+          transition: "height 250ms ease-out",
         }}
       >
-        {/* Hamburger */}
-        <svg width="18" height="13" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="18" height="1.5" rx="0.75" fill="currentColor" />
-          <rect y="5.75" width="18" height="1.5" rx="0.75" fill="currentColor" />
-          <rect y="11.5" width="18" height="1.5" rx="0.75" fill="currentColor" />
-        </svg>
-      </button>
+        {/* Hamburger lines — fade out on open, fade in on close */}
+        {LINE_TOPS.map((top, i) => (
+          <div
+            key={`line-${i}`}
+            style={{
+              position: "absolute",
+              right: 0,
+              top: `${top}px`,
+              width: `${LINE_WIDTH}px`,
+              height: `${LINE_HEIGHT}px`,
+              borderRadius: "0.75px",
+              backgroundColor: "#0F1B47",
+              opacity: open ? 0 : 0.7,
+              transition: open
+                ? "opacity 150ms ease-out"
+                : "opacity 150ms ease-out 150ms",
+              pointerEvents: "none",
+            }}
+          />
+        ))}
 
-      {open && (
+        {/* Labels — persistent elements that transition between positions.
+            Closed: sit at hamburger line positions, invisible.
+            Open: fall to their final label positions, visible.
+            Using <a> + onClick for navigation so we keep a single persistent
+            DOM node per item (Link would remount on open/close). */}
         <nav
-          style={{
-            position: "absolute",
-            top: "calc(100% + 8px)",
-            right: 0,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-end",
-            gap: "14px",
-            padding: "4px 2px 0",
-            zIndex: 50,
-          }}
+          aria-label="Site menu"
+          style={{ display: open ? "block" : "none" }}
         >
-          <Link
-            href="/accommodation"
-            onClick={() => setOpen(false)}
-            className="font-sans"
-            style={{
-              display: "block",
-              fontSize: "11px",
-              fontWeight: 600,
-              letterSpacing: "0.18em",
-              textTransform: "uppercase",
-              color: "#0F1B47",
-              textDecoration: "none",
-            }}
-          >
-            Accommodation
-          </Link>
-          <Link
-            href="/itinerary"
-            onClick={() => setOpen(false)}
-            className="font-sans"
-            style={{
-              display: "block",
-              fontSize: "11px",
-              fontWeight: 600,
-              letterSpacing: "0.18em",
-              textTransform: "uppercase",
-              color: "#0F1B47",
-              textDecoration: "none",
-            }}
-          >
-            Itinerary
-          </Link>
-          <Link
-            href="/travel"
-            onClick={() => setOpen(false)}
-            className="font-sans"
-            style={{
-              display: "block",
-              fontSize: "11px",
-              fontWeight: 600,
-              letterSpacing: "0.18em",
-              textTransform: "uppercase",
-              color: "#0F1B47",
-              textDecoration: "none",
-            }}
-          >
-            Travel
-          </Link>
+          {/* Semantic nav Links — only present when open for accessibility */}
         </nav>
-      )}
+        {MENU_ITEMS.map((item, i) => (
+          <a
+            key={item.href}
+            href={item.href}
+            onClick={(e) => {
+              e.preventDefault();
+              setOpen(false);
+              router.push(item.href);
+            }}
+            className="font-sans"
+            role="menuitem"
+            tabIndex={open ? 0 : -1}
+            style={{
+              position: "absolute",
+              right: 0,
+              top: open ? `${LABEL_TOPS[i]}px` : `${LINE_TOPS[i]}px`,
+              fontSize: "11px",
+              fontWeight: 600,
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+              color: "#0F1B47",
+              textDecoration: "none",
+              whiteSpace: "nowrap",
+              lineHeight: "14px",
+              display: "block",
+              opacity: open ? 0.7 : 0,
+              pointerEvents: open ? "auto" : "none",
+              transition: open
+                ? "opacity 250ms ease-out 100ms, top 250ms ease-out 100ms"
+                : "opacity 250ms ease-in, top 250ms ease-in",
+            }}
+          >
+            {item.label}
+          </a>
+        ))}
+
+        {/* Button overlay — covers hamburger zone when closed */}
+        {!open && (
+          <button
+            onClick={() => setOpen(true)}
+            aria-label="Open menu"
+            aria-expanded={false}
+            style={{
+              position: "absolute",
+              inset: "-4px",
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              zIndex: 2,
+              padding: 0,
+            }}
+          />
+        )}
+      </div>
     </div>
   );
 }
