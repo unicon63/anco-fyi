@@ -475,14 +475,13 @@ function WelcomeLetterStep({
               Ciao Amori,
               <br />
               <br />
-              We would love for you to join us for our wedding, though we know
-              Tuscany is a long way to come. To help us plan, we&rsquo;d really
-              appreciate a few minutes filling out this form. Nico&rsquo;s
+              We would love for you to join us for our wedding in Italy. Nico&rsquo;s
               Italian roots bring us to Lunigiana,{" "}
               <em>the land of the moon</em>, where the wedding will be held at
               the family&rsquo;s casa. Casa dell&rsquo;Angelo,{" "}
               <em>the house of the angel</em>, feels like the fitting place to
-              host our nearest and dearest.
+              host our nearest and dearest. To help us plan, we&rsquo;d really
+              appreciate a few minutes filling out this form.
             </p>
           </div>
         </div>

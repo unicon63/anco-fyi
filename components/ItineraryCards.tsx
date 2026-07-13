@@ -11,7 +11,6 @@ export default function ItineraryCards() {
           <a href="https://maps.app.goo.gl/xdNDSm2r5RQTpQhL7" target="_blank" rel="noopener noreferrer" style={mapLinkStyle}>Bagnone</a>
         </p>
         <p style={{ ...infoBodyStyle, lineHeight: 1.65 }}>Time: 20:30</p>
-        <p style={{ ...infoBodyStyle, lineHeight: 1.65 }}>Dress: Smart Casual</p>
       </div>
 
       {/* Saturday card */}
@@ -19,7 +18,7 @@ export default function ItineraryCards() {
         <p style={infoHeadingStyle}>SATURDAY — ANNIE &amp; NICO&apos;S WEDDING</p>
         <p style={{ ...infoBodyStyle, lineHeight: 1.65 }}>
           Location:{" "}
-          <a href="https://maps.app.goo.gl/u9iHESJmEEcYMTiU7" target="_blank" rel="noopener noreferrer" style={mapLinkStyle}>Casa Dell&apos;Angelo</a>
+          <a href="https://maps.app.goo.gl/u9iHESJmEEcYMTiU7" target="_blank" rel="noopener noreferrer" style={mapLinkStyle}>Casa dell&apos;Angelo</a>
         </p>
         <p style={{ ...infoBodyStyle, lineHeight: 1.65 }}>Guests arrive: 16:30</p>
         <p style={{ ...infoBodyStyle, lineHeight: 1.65 }}>Ceremony: 17:00</p>
@@ -35,7 +34,6 @@ export default function ItineraryCards() {
           <a href="https://maps.app.goo.gl/9tVYWCC71cpM4LCv6" target="_blank" rel="noopener noreferrer" style={mapLinkStyle}>Casa Del Torrentello</a>
         </p>
         <p style={{ ...infoBodyStyle, lineHeight: 1.65 }}>Time: 16:00</p>
-        <p style={{ ...infoBodyStyle, lineHeight: 1.65 }}>Dress: Pool Chic</p>
       </div>
     </div>
   );
